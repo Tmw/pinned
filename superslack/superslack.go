@@ -129,6 +129,7 @@ func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*Author
 			authorKeys = append(authorKeys, candidateKey)
 		}
 
+		// if desired number of authors is reached - break loop
 		if len(authorKeys) == number {
 			break
 		}
@@ -155,9 +156,24 @@ func contains(haystack []string, needle string) bool {
 	return false
 }
 
+func (s *SuperSlack) findPinByID(pinID string) (*Pin, error) {
+	for _, p := range s.pins {
+		if p.ID == pinID {
+			return &p, nil
+		}
+	}
+
+	return nil, fmt.Errorf("Unable to find pin with id %s", pinID)
+}
+
 // CheckAnswer checks answer against the truth
-func (s *SuperSlack) CheckAnswer(challangeId, answeredUserId string) bool {
-	return true
+func (s *SuperSlack) CheckAnswer(challangeID, answeredUserID string) bool {
+	pin, err := s.findPinByID(challangeID)
+	if err != nil {
+		return false
+	}
+
+	return pin.Author.ID == answeredUserID
 }
 
 // New returns a new initialized SuperSlack
