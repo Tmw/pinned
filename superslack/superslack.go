@@ -120,18 +120,12 @@ func (s *SuperSlack) GetChallanges(numChallanges int) []*model.Challange {
 		challanges = append(challanges, challange)
 	}
 
-	// TODO: There's actually loads of improvements here:
-	// * The suggested authors ARE unique, but is done very sloppy..
-
 	return challanges
 }
 
-// TODO: Rewrite this so it'll create a copy of the author array,
-// drop the original author from it, pick a random one, drop the picked one from the list and repeat.
-// that way we can get rid of the if-already-in-list, try forever loop..
+// TODO: This can be improved by using rand.Perm() too i guess.
+// Although; we have the issue of the primer where we need to inject an extra key anyways.
 
-// We can also reuse the same technique to pick random challanges.
-// maybe let it be an generic function.
 func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*model.Author {
 	// first pluck unique keys
 	authorKeys := []string{primer}
