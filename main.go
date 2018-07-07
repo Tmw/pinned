@@ -15,8 +15,11 @@ import (
 var ss superslack.SuperSlack
 
 const (
+	// NumChallanges indicates the number of challanges returned
 	NumChallanges = 5
-	NumAuthors    = 4
+
+	// NumAuthors indicates the number of authors suggested with each challange
+	NumAuthors = 4
 )
 
 func init() {

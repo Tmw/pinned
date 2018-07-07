@@ -16,7 +16,7 @@ type SuperSlack struct {
 
 	channelName string
 	pins        []*model.Pin
-	authors     model.AuthorStore
+	authorCache *AuthorCache
 }
 
 // Load is used to fetch Users and Pins
@@ -38,14 +38,14 @@ func (s *SuperSlack) loadUsers() error {
 
 	for _, u := range users {
 		// inflate to Author object
-		a := model.Author{
+		a := &model.Author{
 			ID:     u.ID,
 			Name:   u.Name,
 			Avatar: u.Profile.Image192,
 		}
 
 		// and persist the author in the map
-		s.authors[u.ID] = a
+		s.authorCache.Set(u.ID, a)
 	}
 
 	return nil
@@ -70,7 +70,7 @@ func (s *SuperSlack) loadPins() error {
 		}
 
 		// Pull original author object from cache
-		originalAuthor := s.authors[item.Message.User]
+		originalAuthor := s.authorCache.Get(item.Message.User)
 
 		p := &model.Pin{
 			ID:     uuid.Must(uuid.NewV4()).String(),
@@ -112,7 +112,7 @@ func (s *SuperSlack) GetChallanges(numChallanges int) []*model.Challange {
 	for i := 0; i < numChallanges; i++ {
 		// grab random pin
 		pickedPin := s.pins[rand.Intn(len(s.pins))]
-		originalAuthor := &pickedPin.Author
+		originalAuthor := pickedPin.Author
 
 		challange := &model.Challange{
 			ID:      pickedPin.ID,
@@ -137,11 +137,7 @@ func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*model.
 	// first pluck unique keys
 	authorKeys := []string{primer}
 
-	// grab all keys (since Authors are stored in a map)
-	keys := []string{}
-	for k := range s.authors {
-		keys = append(keys, k)
-	}
+	keys := s.authorCache.Keys()
 
 	for {
 		candidateKey := keys[rand.Intn(len(keys))]
@@ -158,8 +154,7 @@ func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*model.
 	// Ok; now look up actual author for every ID
 	authors := []*model.Author{}
 	for _, id := range authorKeys {
-		author := s.authors[id]
-		authors = append(authors, &author)
+		authors = append(authors, s.authorCache.Get(id))
 	}
 
 	// and return!
@@ -202,6 +197,6 @@ func New(slackToken, channelName string) SuperSlack {
 		client:      slack.New(slackToken),
 		channelName: channelName,
 		pins:        []*model.Pin{},
-		authors:     model.AuthorStore{},
+		authorCache: NewAuthorCache(),
 	}
 }
