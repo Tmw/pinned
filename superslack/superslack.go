@@ -7,6 +7,7 @@ import (
 
 	"github.com/nlopes/slack"
 	uuid "github.com/satori/go.uuid"
+	"github.com/tmw/slack-service/model"
 )
 
 // SuperSlack is our own magic on top of the Slack SDK
@@ -14,8 +15,8 @@ type SuperSlack struct {
 	client *slack.Client
 
 	channelName string
-	pins        PinStore
-	authors     AuthorStore
+	pins        []*model.Pin
+	authors     model.AuthorStore
 }
 
 // Load is used to fetch Users and Pins
@@ -37,7 +38,7 @@ func (s *SuperSlack) loadUsers() error {
 
 	for _, u := range users {
 		// inflate to Author object
-		a := Author{
+		a := model.Author{
 			ID:     u.ID,
 			Name:   u.Name,
 			Avatar: u.Profile.Image192,
@@ -63,19 +64,22 @@ func (s *SuperSlack) loadPins() error {
 	}
 
 	for _, item := range pins {
-		// Currently only support pinned messages
-		if item.Message != nil {
-
-			// find original author object
-			p := Pin{
-				ID:     uuid.Must(uuid.NewV4()).String(),
-				Author: s.authors[item.Message.User],
-				Text:   item.Message.Text,
-			}
-
-			// persist the pin
-			s.pins = append(s.pins, p)
+		// early return if pinned item is not a message
+		if item.Message == nil {
+			continue
 		}
+
+		// Pull original author object from cache
+		originalAuthor := s.authors[item.Message.User]
+
+		p := &model.Pin{
+			ID:     uuid.Must(uuid.NewV4()).String(),
+			Author: originalAuthor,
+			Text:   item.Message.Text,
+		}
+
+		// persist the pin
+		s.pins = append(s.pins, p)
 	}
 
 	return nil
@@ -96,24 +100,40 @@ func (s *SuperSlack) channelID() (string, error) {
 	return "", fmt.Errorf("Could not find channel with name %s", s.channelName)
 }
 
-// GetChallange returns a single challange
-func (s *SuperSlack) GetChallange() Challange {
+// GetChallanges returns the amount of requested challanges.
+func (s *SuperSlack) GetChallanges(numChallanges int) []*model.Challange {
 
-	// grab random pin
-	pickedPin := s.pins[rand.Intn(len(s.pins))]
+	// TODO: There's actually loads of improvements here:
+	// * The pins are NOT guaranteed to be unique
+	// * The suggested authors ARE unique, but is done very sloppy..
 
-	originalAuthor := &pickedPin.Author
+	var challanges []*model.Challange
 
-	challange := Challange{
-		ID:      pickedPin.ID,
-		Text:    pickedPin.Text,
-		Options: s.getUniqueRandomAuthors(4, originalAuthor.ID),
+	for i := 0; i < numChallanges; i++ {
+		// grab random pin
+		pickedPin := s.pins[rand.Intn(len(s.pins))]
+		originalAuthor := &pickedPin.Author
+
+		challange := &model.Challange{
+			ID:      pickedPin.ID,
+			Text:    pickedPin.Text,
+			Options: s.getUniqueRandomAuthors(4, originalAuthor.ID),
+			Author:  originalAuthor,
+		}
+
+		challanges = append(challanges, challange)
 	}
 
-	return challange
+	return challanges
 }
 
-func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*Author {
+// TODO: Rewrite this so it'll create a copy of the author array,
+// drop the original author from it, pick a random one, drop the picked one from the list and repeat.
+// that way we can get rid of the if-already-in-list, try forever loop..
+
+// We can also reuse the same technique to pick random challanges.
+// maybe let it be an generic function.
+func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*model.Author {
 	// first pluck unique keys
 	authorKeys := []string{primer}
 
@@ -136,7 +156,7 @@ func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*Author
 	}
 
 	// Ok; now look up actual author for every ID
-	authors := []*Author{}
+	authors := []*model.Author{}
 	for _, id := range authorKeys {
 		author := s.authors[id]
 		authors = append(authors, &author)
@@ -156,10 +176,10 @@ func contains(haystack []string, needle string) bool {
 	return false
 }
 
-func (s *SuperSlack) findPinByID(pinID string) (*Pin, error) {
+func (s *SuperSlack) findPinByID(pinID string) (*model.Pin, error) {
 	for _, p := range s.pins {
 		if p.ID == pinID {
-			return &p, nil
+			return p, nil
 		}
 	}
 
@@ -181,7 +201,7 @@ func New(slackToken, channelName string) SuperSlack {
 	return SuperSlack{
 		client:      slack.New(slackToken),
 		channelName: channelName,
-		pins:        PinStore{},
-		authors:     AuthorStore{},
+		pins:        []*model.Pin{},
+		authors:     model.AuthorStore{},
 	}
 }
