@@ -103,15 +103,11 @@ func (s *SuperSlack) channelID() (string, error) {
 // GetChallanges returns the amount of requested challanges.
 func (s *SuperSlack) GetChallanges(numChallanges int) []*model.Challange {
 
-	// TODO: There's actually loads of improvements here:
-	// * The pins are NOT guaranteed to be unique
-	// * The suggested authors ARE unique, but is done very sloppy..
-
 	var challanges []*model.Challange
+	indexes := rand.Perm(len(s.pins))
 
-	for i := 0; i < numChallanges; i++ {
-		// grab random pin
-		pickedPin := s.pins[rand.Intn(len(s.pins))]
+	for _, idx := range indexes[:numChallanges] {
+		pickedPin := s.pins[idx]
 		originalAuthor := pickedPin.Author
 
 		challange := &model.Challange{
@@ -123,6 +119,9 @@ func (s *SuperSlack) GetChallanges(numChallanges int) []*model.Challange {
 
 		challanges = append(challanges, challange)
 	}
+
+	// TODO: There's actually loads of improvements here:
+	// * The suggested authors ARE unique, but is done very sloppy..
 
 	return challanges
 }
