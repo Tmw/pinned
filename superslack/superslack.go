@@ -102,6 +102,7 @@ func (s *SuperSlack) channelID() (string, error) {
 
 // GetChallanges returns the amount of requested challanges.
 func (s *SuperSlack) GetChallanges(numChallanges int) []*model.Challange {
+	numChallanges = cap(numChallanges, len(s.pins))
 
 	var challanges []*model.Challange
 	indexes := rand.Perm(len(s.pins))
@@ -152,16 +153,6 @@ func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*model.
 
 	// and return!
 	return authors
-}
-
-func contains(haystack []string, needle string) bool {
-	for _, v := range haystack {
-		if v == needle {
-			return true
-		}
-	}
-
-	return false
 }
 
 func (s *SuperSlack) findPinByID(pinID string) (*model.Pin, error) {
