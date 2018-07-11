@@ -124,9 +124,6 @@ func (s *SuperSlack) GetChallanges(numChallanges int) []*model.Challange {
 	return challanges
 }
 
-// TODO: This can be improved by using rand.Perm() too i guess.
-// Although; we have the issue of the primer where we need to inject an extra key anyways.
-
 func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*model.Author {
 	// first pluck unique keys
 	authorKeys := []string{primer}
