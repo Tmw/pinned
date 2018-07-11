@@ -132,9 +132,11 @@ func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*model.
 	authorKeys := []string{primer}
 
 	keys := s.authorCache.Keys()
+	randomizedIndexes := rand.Perm(len(keys))
 
-	for {
-		candidateKey := keys[rand.Intn(len(keys))]
+	for _, idx := range randomizedIndexes {
+		candidateKey := keys[idx]
+
 		if !contains(authorKeys, candidateKey) {
 			authorKeys = append(authorKeys, candidateKey)
 		}
