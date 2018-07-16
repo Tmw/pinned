@@ -15,6 +15,13 @@ func (a AuthorCache) Set(id string, author *model.Author) {
 	a[id] = author
 }
 
+// Add will accept a slice of Authors and cache them by ID
+func (a AuthorCache) Add(users []*model.Author) {
+	for idx, u := range users {
+		a.Set(u.ID, users[idx])
+	}
+}
+
 // Keys returns the available keys within the cache
 func (a AuthorCache) Keys() []string {
 	keys := []string{}
