@@ -15,6 +15,9 @@ type SuperSlack struct {
 
 	pins        []*model.Pin
 	authorCache *AuthorCache
+
+	NumChallanges int
+	NumOptions    int
 }
 
 // Load is used to fetch Users and Pins
@@ -38,13 +41,13 @@ func (s *SuperSlack) Load() error {
 }
 
 // GetChallanges returns the amount of requested challanges.
-func (s *SuperSlack) GetChallanges(numChallanges int) []*model.Challange {
-	numChallanges = cap(numChallanges, len(s.pins))
+func (s *SuperSlack) GetChallanges() []*model.Challange {
+	cappedNumChallanges := cap(s.NumChallanges, len(s.pins))
 
 	var challanges []*model.Challange
 	indexes := rand.Perm(len(s.pins))
 
-	for _, idx := range indexes[:numChallanges] {
+	for _, idx := range indexes[:cappedNumChallanges] {
 		pickedPin := s.pins[idx]
 
 		challange := &model.Challange{
@@ -107,11 +110,16 @@ func (s *SuperSlack) CheckAnswer(challangeID, answeredUserID string) bool {
 	return pin.AuthorID == answeredUserID
 }
 
+// TODO: Refactor New method so it'll take an option struct
+
 // New returns a new initialized SuperSlack
-func New(fetcher datafetcher.DataFetcher) SuperSlack {
-	return SuperSlack{
+func New(fetcher datafetcher.DataFetcher, numChallanges, numOptions int) *SuperSlack {
+	return &SuperSlack{
 		fetcher:     fetcher,
 		pins:        []*model.Pin{},
 		authorCache: NewAuthorCache(),
+
+		NumChallanges: numChallanges,
+		NumOptions:    numOptions,
 	}
 }
