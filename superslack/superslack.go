@@ -79,10 +79,11 @@ func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*model.
 		}
 	}
 
-	// Ok; now look up actual author for every ID
+	// Ok; now look up actual author for every ID,
+	// but do it in a randomized order.
 	authors := []*model.Author{}
-	for _, id := range authorKeys {
-		authors = append(authors, s.authorCache.Get(id))
+	for _, idx := range rand.Perm(number) {
+		authors = append(authors, s.authorCache.Get(authorKeys[idx]))
 	}
 
 	// and return!
