@@ -5,16 +5,14 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/nlopes/slack"
-	uuid "github.com/satori/go.uuid"
+	"github.com/tmw/slack-service/datafetcher"
 	"github.com/tmw/slack-service/model"
 )
 
 // SuperSlack is our own magic on top of the Slack SDK
 type SuperSlack struct {
-	client *slack.Client
+	fetcher datafetcher.DataFetcher
 
-	channelName string
 	pins        []*model.Pin
 	authorCache *AuthorCache
 }
@@ -23,81 +21,20 @@ type SuperSlack struct {
 func (s *SuperSlack) Load() error {
 	rand.Seed(time.Now().Unix())
 
-	if err := s.loadUsers(); err != nil {
-		return err
-	}
-
-	return s.loadPins()
-}
-
-func (s *SuperSlack) loadUsers() error {
-	users, err := s.client.GetUsers()
+	users, err := s.fetcher.FetchUsers()
 	if err != nil {
 		return err
 	}
 
-	for _, u := range users {
-		// inflate to Author object
-		a := &model.Author{
-			ID:     u.ID,
-			Name:   u.Name,
-			Avatar: u.Profile.Image192,
-		}
+	s.authorCache.Add(users)
 
-		// and persist the author in the map
-		s.authorCache.Set(u.ID, a)
+	pins, err := s.fetcher.FetchPins()
+	if err != nil {
+		return err
 	}
 
+	s.pins = pins
 	return nil
-}
-
-func (s *SuperSlack) loadPins() error {
-	channelID, err := s.channelID()
-	if err != nil {
-		return err
-	}
-
-	pins, _, err := s.client.ListPins(channelID)
-
-	if err != nil {
-		return err
-	}
-
-	for _, item := range pins {
-		// early return if pinned item is not a message
-		if item.Message == nil {
-			continue
-		}
-
-		// Pull original author object from cache
-		originalAuthor := s.authorCache.Get(item.Message.User)
-
-		p := &model.Pin{
-			ID:     uuid.Must(uuid.NewV4()).String(),
-			Author: originalAuthor,
-			Text:   item.Message.Text,
-		}
-
-		// persist the pin
-		s.pins = append(s.pins, p)
-	}
-
-	return nil
-}
-
-func (s *SuperSlack) channelID() (string, error) {
-	channels, err := s.client.GetChannels(true)
-	if err != nil {
-		return "", err
-	}
-
-	for _, c := range channels {
-		if c.Name == s.channelName {
-			return c.ID, nil
-		}
-	}
-
-	return "", fmt.Errorf("Could not find channel with name %s", s.channelName)
 }
 
 // GetChallanges returns the amount of requested challanges.
@@ -109,13 +46,11 @@ func (s *SuperSlack) GetChallanges(numChallanges int) []*model.Challange {
 
 	for _, idx := range indexes[:numChallanges] {
 		pickedPin := s.pins[idx]
-		originalAuthor := pickedPin.Author
 
 		challange := &model.Challange{
 			ID:      pickedPin.ID,
 			Text:    pickedPin.Text,
-			Options: s.getUniqueRandomAuthors(4, originalAuthor.ID),
-			Author:  originalAuthor,
+			Options: s.getUniqueRandomAuthors(4, pickedPin.AuthorID),
 		}
 
 		challanges = append(challanges, challange)
@@ -171,14 +106,13 @@ func (s *SuperSlack) CheckAnswer(challangeID, answeredUserID string) bool {
 		return false
 	}
 
-	return pin.Author.ID == answeredUserID
+	return pin.AuthorID == answeredUserID
 }
 
 // New returns a new initialized SuperSlack
-func New(slackToken, channelName string) SuperSlack {
+func New(fetcher datafetcher.DataFetcher) SuperSlack {
 	return SuperSlack{
-		client:      slack.New(slackToken),
-		channelName: channelName,
+		fetcher:     fetcher,
 		pins:        []*model.Pin{},
 		authorCache: NewAuthorCache(),
 	}
