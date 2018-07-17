@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/tmw/slack-service/datafetcher"
+
 	"net/http"
 
 	"github.com/joho/godotenv"
@@ -24,11 +26,15 @@ const (
 
 func init() {
 	godotenv.Load()
+
+	slackToken := envOrPanic("SLACK_TOKEN")
+	slackChannel := envOrPanic("SLACK_CHANNEL")
+
+	ss = superslack.New(datafetcher.New(slackToken, slackChannel))
 }
 
 func main() {
-	// setup superslack
-	ss = superslack.New(envOrPanic("SLACK_TOKEN"), envOrPanic("SUPERSLACK_CHANNEL"))
+	// calling load will fetch all required objects
 	ss.Load()
 
 	// start HTTP server
@@ -39,7 +45,7 @@ func envOrPanic(key string) string {
 	v := os.Getenv(key)
 
 	if v == "" {
-		log.Fatalf("No %s environment variable found", v)
+		log.Fatalf("No %s environment variable found\n", key)
 	}
 
 	return v
@@ -68,6 +74,8 @@ func checkAnswerHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func startServer() {
+	// TODO: Rebuild with gorilla/mux routers.
+	// that also makes it easier to return 404's.
 	mux := http.NewServeMux()
 	mux.HandleFunc("/challanges", getChallangeHandler)
 	mux.HandleFunc("/check", checkAnswerHandler)
