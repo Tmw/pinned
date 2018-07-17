@@ -9,7 +9,7 @@ import (
 	"github.com/tmw/slack-service/model"
 )
 
-// SuperSlack is our own magic on top of the Slack SDK
+// SuperSlack is our main quiz logic.
 type SuperSlack struct {
 	fetcher datafetcher.DataFetcher
 
@@ -62,11 +62,9 @@ func (s *SuperSlack) GetChallanges(numChallanges int) []*model.Challange {
 func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*model.Author {
 	// first pluck unique keys
 	authorKeys := []string{primer}
-
 	keys := s.authorCache.Keys()
-	randomizedIndexes := rand.Perm(len(keys))
 
-	for _, idx := range randomizedIndexes {
+	for _, idx := range rand.Perm(len(keys)) {
 		candidateKey := keys[idx]
 
 		if !contains(authorKeys, candidateKey) {
@@ -86,7 +84,6 @@ func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*model.
 		authors = append(authors, s.authorCache.Get(authorKeys[idx]))
 	}
 
-	// and return!
 	return authors
 }
 
