@@ -7,7 +7,10 @@ import (
 
 func (s *Server) getChallangesHandler(w http.ResponseWriter, r *http.Request) {
 	challanges := s.superslack.GetChallanges()
-	json, err := json.Marshal(challanges)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(challanges)
+}
 
 	w.Header().Set("Content-Type", "application/json")
 
