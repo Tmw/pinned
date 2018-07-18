@@ -100,14 +100,34 @@ func (s *SuperSlack) findPinByID(pinID string) (*model.Pin, error) {
 	return nil, fmt.Errorf("Unable to find pin with id %s", pinID)
 }
 
-// CheckAnswer checks answer against the truth
-func (s *SuperSlack) CheckAnswer(challangeID, answeredUserID string) bool {
-	pin, err := s.findPinByID(challangeID)
-	if err != nil {
-		return false
+// CheckAnswers checks answer against the truth and returns either
+// the number of correct answers or an error
+func (s *SuperSlack) CheckAnswers(answers []*model.Answer) (int, error) {
+	fmt.Printf("%d answers provided.", len(answers))
+
+	if len(answers) < s.NumChallanges {
+		return 0, fmt.Errorf("Not enough answers provided")
 	}
 
-	return pin.AuthorID == answeredUserID
+	if len(answers) > s.NumChallanges {
+		return 0, fmt.Errorf("Too much answers provided")
+	}
+
+	// happy path
+	score := 0
+
+	for _, answer := range answers {
+		pin, err := s.findPinByID(answer.ChallangeID)
+		if err != nil {
+			return 0, fmt.Errorf("challange_id %v invalid", answer.ChallangeID)
+		}
+
+		if pin.AuthorID == answer.AuthorID {
+			score++
+		}
+	}
+
+	return score, nil
 }
 
 // TODO: Refactor New method so it'll take an option struct
