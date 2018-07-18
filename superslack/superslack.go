@@ -103,8 +103,6 @@ func (s *SuperSlack) findPinByID(pinID string) (*model.Pin, error) {
 // CheckAnswers checks answer against the truth and returns either
 // the number of correct answers or an error
 func (s *SuperSlack) CheckAnswers(answers []*model.Answer) (int, error) {
-	fmt.Printf("%d answers provided.", len(answers))
-
 	if len(answers) < s.NumChallanges {
 		return 0, fmt.Errorf("Not enough answers provided")
 	}
