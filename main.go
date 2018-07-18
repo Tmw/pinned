@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -41,6 +42,8 @@ func init() {
 func main() {
 	// calling load will fetch all required objects
 	ss.Load()
+
+	fmt.Println("Superslack server starting at: http://localhost:4000")
 
 	// start HTTP server
 	srv.Start(4000)
