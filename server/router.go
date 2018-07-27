@@ -12,7 +12,6 @@ func (s *Server) setupRoutes() http.Handler {
 
 	// configure routes
 	mux.HandleFunc("/challanges", s.getChallangesHandler).Methods("GET")
-	mux.HandleFunc("/check", s.checkAnswersHandler).Methods("POST")
 
 	// custom 404 response
 	mux.NotFoundHandler = http.HandlerFunc(s.notFoundHandler)

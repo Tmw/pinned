@@ -3,8 +3,6 @@ package server
 import (
 	"encoding/json"
 	"net/http"
-
-	"github.com/tmw/slack-service/model"
 )
 
 func (s *Server) getChallangesHandler(w http.ResponseWriter, r *http.Request) {
@@ -12,30 +10,6 @@ func (s *Server) getChallangesHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(challanges)
-}
-
-func (s *Server) checkAnswersHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-
-	var answers []*model.Answer
-	err := json.NewDecoder(r.Body).Decode(&answers)
-	if err != nil {
-		errorResponse(w, "Error decoding JSON")
-		return
-	}
-
-	numCorrect, err := s.superslack.CheckAnswers(answers)
-	if err != nil {
-		errorResponse(w, "Error processing answers: "+err.Error())
-		return
-	}
-
-	resp := struct {
-		NumCorrect int `json:"num_correct"`
-	}{numCorrect}
-
-	json.NewEncoder(w).Encode(resp)
 }
 
 func (s *Server) notFoundHandler(w http.ResponseWriter, r *http.Request) {
