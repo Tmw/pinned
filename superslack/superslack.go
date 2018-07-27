@@ -54,6 +54,7 @@ func (s *SuperSlack) GetChallanges() []*model.Challange {
 			ID:      pickedPin.ID,
 			Text:    pickedPin.Text,
 			Options: s.getUniqueRandomAuthors(4, pickedPin.AuthorID),
+			Author:  s.authorCache.Get(pickedPin.AuthorID),
 		}
 
 		challanges = append(challanges, challange)
