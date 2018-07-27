@@ -101,8 +101,6 @@ func (s *SuperSlack) findPinByID(pinID string) (*model.Pin, error) {
 	return nil, fmt.Errorf("Unable to find pin with id %s", pinID)
 }
 
-// TODO: Refactor New method so it'll take an option struct
-
 // New returns a new initialized SuperSlack
 func New(fetcher datafetcher.DataFetcher, numChallanges, numOptions int) *SuperSlack {
 	return &SuperSlack{
