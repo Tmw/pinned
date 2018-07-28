@@ -1,0 +1,162 @@
+/* Basic Variables*/
+:root {
+  --background-color: #e1f7d5;
+  --accent-color: hotpink;
+  --main-text-color: #666666;
+  --offset-background-color: #ffffff;
+}
+
+/* Some resetting styles*/
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: var(--background-color);
+}
+
+.App {
+  height: 100%;
+}
+
+/* Author option card */
+.option--list {
+  margin-top: 40px;
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
+}
+
+.option {
+  cursor: pointer;
+  /* margin-right: 30px; */
+}
+
+.option--avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 5px solid var(--offset-background-color);
+  transition: opacity 0.2s, border 0.2s;
+  opacity: 0.8;
+}
+
+.option--avatar:hover {
+  border: 5px solid var(--accent-color);
+  opacity: 1;
+}
+
+.option--name {
+  text-align: center;
+  font-weight: bold;
+  color: var(--main-text-color);
+}
+
+/* ChallangeView styling */
+.challangeView {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Quote card*/
+.quote--box {
+  background-color: var(--offset-background-color);
+  border-radius: 5px;
+  width: 800px;
+}
+
+.quote {
+  word-wrap: break-word;
+  color: var(--main-text-color);
+  display: block;
+  margin: 50px 100px;
+  padding: 0px;
+  font-size: 3em;
+  position: relative;
+}
+
+.quote:before {
+  content: "\201C";
+  color: #dfdfdf;
+  font-family: Arial;
+  content: "\201C";
+  font-size: 3em;
+  position: absolute;
+  left: -71px;
+  top: -20px;
+}
+
+.progress--indicator {
+  background-color: var(--offset-background-color);
+  border-radius: 5px 5px 0px 0px;
+  padding: 15px 20px;
+}
+
+.progress--indicator span {
+  color: var(--main-text-color);
+  font-weight: bold;
+}
+
+/* Loader View */
+.loader-view {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* error view */
+.error-view {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.error--details {
+  color: var(--main-text-color);
+}
+
+/* Spinner Component */
+.spinner--wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spinner--disc {
+  width: 50px;
+  height: 50px;
+  background-color: var(--offset-background-color);
+  border: 5px solid transparent;
+  border-right: 5px solid var(--accent-color);
+  border-radius: 50%;
+  animation: spinning 0.6s linear infinite;
+  box-shadow: 0px 0px 0px 3px var(--offset-background-color);
+}
+
+@keyframes spinning {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner--text {
+  margin: 1.3em 0 0 0;
+  font-weight: bold;
+  color: var(--main-text-color);
+}
