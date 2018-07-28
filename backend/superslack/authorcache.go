@@ -1,6 +1,6 @@
 package superslack
 
-import "github.com/tmw/slack-service/model"
+import "github.com/tmw/pinned/backend/model"
 
 // AuthorCache acts as a key-value cache for author IDs and their Author models
 type AuthorCache map[string]*model.Author

@@ -5,11 +5,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/tmw/slack-service/datafetcher"
-	"github.com/tmw/slack-service/server"
+	"github.com/tmw/pinned/backend/datafetcher"
+	"github.com/tmw/pinned/backend/server"
 
 	"github.com/joho/godotenv"
-	"github.com/tmw/slack-service/superslack"
+	"github.com/tmw/pinned/backend/superslack"
 )
 
 const (

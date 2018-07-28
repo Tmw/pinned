@@ -5,7 +5,7 @@ import (
 
 	"github.com/nlopes/slack"
 	uuid "github.com/satori/go.uuid"
-	"github.com/tmw/slack-service/model"
+	"github.com/tmw/pinned/backend/model"
 )
 
 // SlackFetcher fetches users and pins from the Slack API

@@ -3,7 +3,7 @@ package server
 import (
 	"net/http"
 
-	"github.com/tmw/slack-service/superslack"
+	"github.com/tmw/pinned/backend/superslack"
 )
 
 // Server sets up a basic HTTP server

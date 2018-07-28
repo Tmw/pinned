@@ -5,8 +5,8 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/tmw/slack-service/datafetcher"
-	"github.com/tmw/slack-service/model"
+	"github.com/tmw/pinned/backend/datafetcher"
+	"github.com/tmw/pinned/backend/model"
 )
 
 // SuperSlack is our main quiz logic.

@@ -1,7 +1,7 @@
 package datafetcher
 
 import (
-	"github.com/tmw/slack-service/model"
+	"github.com/tmw/pinned/backend/model"
 )
 
 // DataFetcher describes an interface that is responsible
