@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:4000/api";
+const BASE_URL = "http://localhost:3000/api";
 
 const API = {
   FetchChallanges: () => fetch(`${BASE_URL}/challanges`).then(r => r.json()),
