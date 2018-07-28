@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/rs/cors"
 )
 
 func (s *Server) setupRoutes() http.Handler {
@@ -18,5 +17,5 @@ func (s *Server) setupRoutes() http.Handler {
 	mux.NotFoundHandler = http.HandlerFunc(s.notFoundHandler)
 
 	// return CORS enabled http.Handler
-	return cors.Default().Handler(mux)
+	return mux
 }
