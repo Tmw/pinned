@@ -1,7 +1,6 @@
 package pinned
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 
@@ -89,16 +88,6 @@ func (p *Pinned) getUniqueRandomAuthors(number int, primer string) []*model.Auth
 	}
 
 	return authors
-}
-
-func (p *Pinned) findPinByID(pinID string) (*model.Pin, error) {
-	for _, p := range p.pins {
-		if p.ID == pinID {
-			return p, nil
-		}
-	}
-
-	return nil, fmt.Errorf("Unable to find pin with id %s", pinID)
 }
 
 // New returns a new initialized SuperSlack
