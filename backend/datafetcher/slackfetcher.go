@@ -59,7 +59,7 @@ func (sf *SlackFetcher) FetchPins() ([]*model.Pin, error) {
 		}
 
 		p := &model.Pin{
-			ID:       uuid.Must(uuid.NewV4()).String(),
+			ID:       uuid.Must(uuid.NewV4()),
 			AuthorID: item.Message.User,
 			Text:     item.Message.Text,
 		}
