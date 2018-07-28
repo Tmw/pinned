@@ -3,12 +3,12 @@ package server
 import (
 	"net/http"
 
-	"github.com/tmw/pinned/backend/superslack"
+	"github.com/tmw/pinned/backend/pinned"
 )
 
 // Server sets up a basic HTTP server
 type Server struct {
-	superslack *superslack.SuperSlack
+	superslack *pinned.Pinned
 }
 
 // Start starts the HTTP server on the given port
@@ -18,7 +18,7 @@ func (s *Server) Start(port int) {
 }
 
 // New configures and returns a Server instance
-func New(superslack *superslack.SuperSlack) *Server {
+func New(superslack *pinned.Pinned) *Server {
 	return &Server{
 		superslack: superslack,
 	}

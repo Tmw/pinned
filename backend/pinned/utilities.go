@@ -1,4 +1,4 @@
-package superslack
+package pinned
 
 func cap(a, b int) int {
 	if a > b {

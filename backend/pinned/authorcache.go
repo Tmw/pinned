@@ -1,4 +1,4 @@
-package superslack
+package pinned
 
 import "github.com/tmw/pinned/backend/model"
 

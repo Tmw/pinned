@@ -1,15 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
 	"github.com/tmw/pinned/backend/datafetcher"
+	"github.com/tmw/pinned/backend/pinned"
 	"github.com/tmw/pinned/backend/server"
 
 	"github.com/joho/godotenv"
-	"github.com/tmw/pinned/backend/superslack"
 )
 
 const (
@@ -21,7 +20,7 @@ const (
 )
 
 var (
-	ss  *superslack.SuperSlack
+	p   *pinned.Pinned
 	srv *server.Server
 )
 
@@ -31,19 +30,17 @@ func init() {
 	slackToken := envOrPanic("SLACK_TOKEN")
 	slackChannel := envOrPanic("SLACK_CHANNEL")
 
-	ss = superslack.New(
+	p = pinned.New(
 		datafetcher.New(slackToken, slackChannel),
 		NumChallanges,
 		NumAuthors,
 	)
-	srv = server.New(ss)
+	srv = server.New(p)
 }
 
 func main() {
 	// calling load will fetch all required objects
-	ss.Load()
-
-	fmt.Println("Superslack server starting at: http://localhost:4000")
+	p.Load()
 
 	// start HTTP server
 	srv.Start(4000)

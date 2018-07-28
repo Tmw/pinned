@@ -1,4 +1,4 @@
-package superslack
+package pinned
 
 import (
 	"fmt"
@@ -9,8 +9,8 @@ import (
 	"github.com/tmw/pinned/backend/model"
 )
 
-// SuperSlack is our main quiz logic.
-type SuperSlack struct {
+// Pinned is our main quiz logic.
+type Pinned struct {
 	fetcher datafetcher.DataFetcher
 
 	pins        []*model.Pin
@@ -21,40 +21,40 @@ type SuperSlack struct {
 }
 
 // Load is used to fetch Users and Pins
-func (s *SuperSlack) Load() error {
+func (p *Pinned) Load() error {
 	rand.Seed(time.Now().Unix())
 
-	users, err := s.fetcher.FetchUsers()
+	users, err := p.fetcher.FetchUsers()
 	if err != nil {
 		return err
 	}
 
-	s.authorCache.Add(users)
+	p.authorCache.Add(users)
 
-	pins, err := s.fetcher.FetchPins()
+	pins, err := p.fetcher.FetchPins()
 	if err != nil {
 		return err
 	}
 
-	s.pins = pins
+	p.pins = pins
 	return nil
 }
 
 // GetChallanges returns the amount of requested challanges.
-func (s *SuperSlack) GetChallanges() []*model.Challange {
-	cappedNumChallanges := cap(s.NumChallanges, len(s.pins))
+func (p *Pinned) GetChallanges() []*model.Challange {
+	cappedNumChallanges := cap(p.NumChallanges, len(p.pins))
 
 	var challanges []*model.Challange
-	indexes := rand.Perm(len(s.pins))
+	indexes := rand.Perm(len(p.pins))
 
 	for _, idx := range indexes[:cappedNumChallanges] {
-		pickedPin := s.pins[idx]
+		pickedPin := p.pins[idx]
 
 		challange := &model.Challange{
 			ID:      pickedPin.ID,
 			Text:    pickedPin.Text,
-			Options: s.getUniqueRandomAuthors(4, pickedPin.AuthorID),
-			Author:  s.authorCache.Get(pickedPin.AuthorID),
+			Options: p.getUniqueRandomAuthors(4, pickedPin.AuthorID),
+			Author:  p.authorCache.Get(pickedPin.AuthorID),
 		}
 
 		challanges = append(challanges, challange)
@@ -63,10 +63,10 @@ func (s *SuperSlack) GetChallanges() []*model.Challange {
 	return challanges
 }
 
-func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*model.Author {
+func (p *Pinned) getUniqueRandomAuthors(number int, primer string) []*model.Author {
 	// first pluck unique keys
 	authorKeys := []string{primer}
-	keys := s.authorCache.Keys()
+	keys := p.authorCache.Keys()
 
 	for _, idx := range rand.Perm(len(keys)) {
 		candidateKey := keys[idx]
@@ -85,14 +85,14 @@ func (s *SuperSlack) getUniqueRandomAuthors(number int, primer string) []*model.
 	// but do it in a randomized order.
 	authors := []*model.Author{}
 	for _, idx := range rand.Perm(number) {
-		authors = append(authors, s.authorCache.Get(authorKeys[idx]))
+		authors = append(authors, p.authorCache.Get(authorKeys[idx]))
 	}
 
 	return authors
 }
 
-func (s *SuperSlack) findPinByID(pinID string) (*model.Pin, error) {
-	for _, p := range s.pins {
+func (p *Pinned) findPinByID(pinID string) (*model.Pin, error) {
+	for _, p := range p.pins {
 		if p.ID == pinID {
 			return p, nil
 		}
@@ -102,8 +102,8 @@ func (s *SuperSlack) findPinByID(pinID string) (*model.Pin, error) {
 }
 
 // New returns a new initialized SuperSlack
-func New(fetcher datafetcher.DataFetcher, numChallanges, numOptions int) *SuperSlack {
-	return &SuperSlack{
+func New(fetcher datafetcher.DataFetcher, numChallanges, numOptions int) *Pinned {
+	return &Pinned{
 		fetcher:     fetcher,
 		pins:        []*model.Pin{},
 		authorCache: NewAuthorCache(),
