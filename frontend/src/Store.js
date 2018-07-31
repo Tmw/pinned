@@ -1,73 +1,60 @@
-import { decorate, observable, action, computed, runInAction } from "mobx";
+import { types, flow } from "mobx-state-tree";
 import { Views } from "./Constants";
 import API from "./services/API";
 
-class Store {
-  /* Own properties */
-  currentView = Views.LOADING;
-  error = "";
-  challanges = [];
-  currentChallangeIdx = 0;
-
-  /* Computed Properties */
-  get currentChallange() {
-    return this.challanges[this.currentChallangeIdx];
-  }
-
-  nextChallange() {
-    if (this.currentChallangeIdx < this.challanges.length - 1) {
-      this.currentChallangeIdx++;
-    } else {
-      this.showNextView();
-    }
-  }
-
-  /* Actions */
-  fetchChallanges() {
-    this.currentView = Views.LOADING;
-
-    API.FetchChallanges()
-      .then(c => {
-        runInAction(() => {
-          this.challanges = c;
-          this.currentView = Views.PIN;
-        });
-      })
-      .catch(err => {
-        runInAction(() => {
-          this.currentView = Views.ERROR;
-          this.error = err;
-        });
-      });
-  }
-
-  showNextView() {
-    switch (this.currentView) {
-      case Views.LOADING:
-        this.currentView = Views.PIN;
-        break;
-
-      case Views.PIN:
-        this.currentView = Views.SCORE;
-        break;
-
-      default:
-      case Views.SCORE:
-        this.currentView = Views.LOADING;
-        break;
-    }
-  }
-}
-
-decorate(Store, {
-  currentView: observable,
-  challanges: observable,
-  currentChallangeIdx: observable,
-
-  currentChallange: computed,
-
-  showNextView: action,
-  fetchChallanges: action
+const ChallangeOption = types.model({
+  id: types.string,
+  name: types.string,
+  avatar: types.string
 });
 
-export default new Store();
+const Challange = types.model({
+  id: types.string,
+  text: types.string,
+  options: types.array(ChallangeOption)
+});
+
+const Store = types
+  .model({
+    currentView: types.enumeration(Object.values(Views)),
+    challanges: types.array(Challange),
+    currentChallangeIdx: 0,
+    error: types.maybe(types.string)
+  })
+
+  .views(self => ({
+    get currentChallange() {
+      return self.challanges[self.currentChallangeIdx];
+    }
+  }))
+
+  .actions(self => ({
+    fetchChallanges: flow(function*() {
+      try {
+        self.challanges = yield API.FetchChallanges();
+        self.presentView(Views.PIN);
+      } catch (err) {
+        self.error = err;
+        self.presentView(Views.ERROR);
+      }
+    }),
+
+    nextChallange() {
+      if (self.currentChallangeIdx < self.challanges.length - 1) {
+        self.currentChallangeIdx++;
+      } else {
+        self.presentView(Views.SCORE);
+      }
+    },
+
+    presentView(view) {
+      self.currentView = view;
+    }
+  }));
+
+const DefaultState = {
+  currentView: Views.LOADING,
+  challanges: []
+};
+
+export default Store.create(DefaultState);
