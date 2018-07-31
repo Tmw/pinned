@@ -21,13 +21,12 @@ type config struct {
 var (
 	p   *pinned.Pinned
 	srv *server.Server
-	cfg *config
 )
 
 func init() {
 	godotenv.Load()
 
-	cfg = new(config)
+	cfg := new(config)
 	err := env.Parse(cfg)
 	if err != nil {
 		log.Fatalf("%+v\n", err)
