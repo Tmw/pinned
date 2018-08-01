@@ -3,7 +3,8 @@ import { inject, observer } from "mobx-react";
 
 class PinView extends React.Component {
   renderOptions() {
-    const { options } = this.props.store.currentChallange;
+    const { ChallangeStore } = this.props.store;
+    const { options } = ChallangeStore.currentChallange;
 
     return options.map((option, i) => (
       <li className="option" key={i} onClick={this.optionClicked}>
@@ -18,13 +19,14 @@ class PinView extends React.Component {
   }
 
   optionClicked = e => {
-    this.props.store.nextChallange();
+    this.props.store.ChallangeStore.nextChallange();
   };
 
   render() {
-    const challange = this.props.store.currentChallange;
-    const challangeIndex = this.props.store.currentChallangeIdx + 1;
-    const numChallanges = this.props.store.challanges.length;
+    const { ChallangeStore } = this.props.store;
+    const challange = ChallangeStore.currentChallange;
+    const challangeIndex = ChallangeStore.currentChallangeIdx + 1;
+    const numChallanges = ChallangeStore.challanges.length;
 
     return (
       <div className="challangeView">

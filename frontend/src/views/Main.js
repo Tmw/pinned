@@ -9,11 +9,13 @@ import ScoreView from "./Score";
 
 class Main extends Component {
   componentDidMount() {
-    this.props.store.fetchChallanges();
+    this.props.store.ChallangeStore.fetchChallanges();
   }
 
   renderChildView() {
-    switch (this.props.store.currentView) {
+    const { ViewStore } = this.props.store;
+
+    switch (ViewStore.currentView) {
       default:
       case Views.LOADING:
         return <LoaderView />;
@@ -29,21 +31,8 @@ class Main extends Component {
     }
   }
 
-  onNextView = e => {
-    this.props.store.showNextView();
-  };
-
   render() {
-    return (
-      <div className="App">
-        {this.renderChildView()}
-
-        <br />
-        <br />
-        <br />
-        <button onClick={this.onNextView}>Next State</button>
-      </div>
-    );
+    return <div className="App">{this.renderChildView()}</div>;
   }
 }
 

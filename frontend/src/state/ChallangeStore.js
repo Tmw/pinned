@@ -1,6 +1,6 @@
-import { types, flow } from "mobx-state-tree";
-import { Views } from "./Constants";
-import API from "./services/API";
+import { types, flow, getRoot } from "mobx-state-tree";
+import { Views } from "../Constants";
+import API from "../services/API";
 
 const ChallangeOption = types.model({
   id: types.string,
@@ -14,9 +14,8 @@ const Challange = types.model({
   options: types.array(ChallangeOption)
 });
 
-const Store = types
+const ChallangeStore = types
   .model({
-    currentView: types.enumeration(Object.values(Views)),
     challanges: types.array(Challange),
     currentChallangeIdx: 0,
     error: types.maybe(types.string)
@@ -32,10 +31,10 @@ const Store = types
     fetchChallanges: flow(function*() {
       try {
         self.challanges = yield API.FetchChallanges();
-        self.presentView(Views.PIN);
+        getRoot(self).ViewStore.presentView(Views.PIN);
       } catch (err) {
         self.error = err;
-        self.presentView(Views.ERROR);
+        getRoot(self).ViewStore.presentView(Views.ERROR);
       }
     }),
 
@@ -43,18 +42,16 @@ const Store = types
       if (self.currentChallangeIdx < self.challanges.length - 1) {
         self.currentChallangeIdx++;
       } else {
-        self.presentView(Views.SCORE);
+        getRoot(self).ViewStore.presentView(Views.SCORE);
       }
-    },
-
-    presentView(view) {
-      self.currentView = view;
     }
   }));
 
-const DefaultState = {
-  currentView: Views.LOADING,
+const Defaults = {
   challanges: []
 };
 
-export default Store.create(DefaultState);
+const CreateChallangeStore = overrides =>
+  ChallangeStore.create(Object.assign(Defaults, overrides));
+
+export { ChallangeStore, CreateChallangeStore };
