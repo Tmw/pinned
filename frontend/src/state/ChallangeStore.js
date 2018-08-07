@@ -8,24 +8,44 @@ const Author = types.model({
   avatar: types.string
 });
 
-const Challange = types.model({
-  id: types.string,
-  text: types.string,
-  options: types.array(Author),
-  author: Author,
-  answeredAuthorId: types.maybeNull(types.string)
-});
+const Challange = types
+  .model({
+    id: types.string,
+    text: types.string,
+    options: types.array(Author),
+    author: Author,
+    answeredAuthorId: types.maybeNull(types.string)
+  })
+  .actions(self => ({
+    answer(authorId) {
+      const { ChallangeStore, ViewStore } = getRoot(self);
+
+      self.answeredAuthorId = authorId;
+
+      if (!ChallangeStore.currentChallange) {
+        ViewStore.presentView(Views.SCORE);
+      }
+    }
+  }))
+  .views(self => ({
+    get isAnswered() {
+      return self.answeredAuthorId !== null;
+    }
+  }));
 
 const ChallangeStore = types
   .model({
     challanges: types.array(Challange),
-    currentChallangeIdx: 0,
     error: types.maybe(types.string)
   })
 
   .views(self => ({
+    get currentChallangeIdx() {
+      return self.challanges.filter(challange => challange.isAnswered).length;
+    },
+
     get currentChallange() {
-      return self.challanges[self.currentChallangeIdx];
+      return self.challanges.find(challange => !challange.isAnswered);
     }
   }))
 

@@ -7,7 +7,11 @@ class PinView extends React.Component {
     const { options } = ChallangeStore.currentChallange;
 
     return options.map((option, i) => (
-      <li className="option" key={i} onClick={this.optionClicked}>
+      <li
+        className="option"
+        key={i}
+        onClick={e => this.optionClicked(option.id)}
+      >
         <img
           className="option--avatar"
           src={option.avatar}
@@ -18,8 +22,8 @@ class PinView extends React.Component {
     ));
   }
 
-  optionClicked = e => {
-    this.props.store.ChallangeStore.nextChallange();
+  optionClicked = guessId => {
+    this.props.store.ChallangeStore.currentChallange.answer(guessId);
   };
 
   render() {
