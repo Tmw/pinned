@@ -2,7 +2,7 @@ import { types, flow, getRoot } from "mobx-state-tree";
 import { Views } from "../Constants";
 import API from "../services/API";
 
-const ChallangeOption = types.model({
+const Author = types.model({
   id: types.string,
   name: types.string,
   avatar: types.string
@@ -11,7 +11,9 @@ const ChallangeOption = types.model({
 const Challange = types.model({
   id: types.string,
   text: types.string,
-  options: types.array(ChallangeOption)
+  options: types.array(Author),
+  author: Author,
+  answeredAuthorId: types.maybeNull(types.string)
 });
 
 const ChallangeStore = types
