@@ -16,19 +16,20 @@ type config struct {
 	NumAuthors    int    `env:"NUM_AUTHORS" envDefault:"4"`
 	SlackToken    string `env:"SLACK_TOKEN,required"`
 	SlackChannel  string `env:"SLACK_CHANNEL" envDefault:"general"`
+	ServerPort    int    `env:"SERVER_PORT" envDefault:"4000"`
 }
 
 var (
 	p   *pinned.Pinned
 	srv *server.Server
+	cfg *config
 )
 
 func init() {
 	godotenv.Load()
 
-	cfg := new(config)
-	err := env.Parse(cfg)
-	if err != nil {
+	cfg = new(config)
+	if err := env.Parse(cfg); err != nil {
 		log.Fatalf("%+v\n", err)
 	}
 
@@ -45,5 +46,5 @@ func main() {
 	p.Load()
 
 	// start HTTP server
-	srv.Start(4000)
+	srv.Start(cfg.ServerPort)
 }
