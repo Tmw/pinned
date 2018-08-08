@@ -58,15 +58,7 @@ const ChallangeStore = types
         self.error = err;
         getRoot(self).ViewStore.presentView(Views.ERROR);
       }
-    }),
-
-    nextChallange() {
-      if (self.currentChallangeIdx < self.challanges.length - 1) {
-        self.currentChallangeIdx++;
-      } else {
-        getRoot(self).ViewStore.presentView(Views.SCORE);
-      }
-    }
+    })
   }));
 
 const Defaults = {
