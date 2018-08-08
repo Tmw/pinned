@@ -29,7 +29,7 @@ class PinView extends React.Component {
   render() {
     const { ChallangeStore } = this.props.store;
     const challange = ChallangeStore.currentChallange;
-    const challangeIndex = ChallangeStore.currentChallangeIdx + 1;
+    const challangeIndex = ChallangeStore.currentChallangeIndex + 1;
     const numChallanges = ChallangeStore.challanges.length;
 
     return (

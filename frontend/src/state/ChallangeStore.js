@@ -39,7 +39,7 @@ const ChallangeStore = types
   })
 
   .views(self => ({
-    get currentChallangeIdx() {
+    get currentChallangeIndex() {
       return self.challanges.filter(challange => challange.isAnswered).length;
     },
 
