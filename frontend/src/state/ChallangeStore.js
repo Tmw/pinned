@@ -35,8 +35,7 @@ const Challange = types
 
 const ChallangeStore = types
   .model({
-    challanges: types.array(Challange),
-    error: types.maybe(types.string)
+    challanges: types.array(Challange)
   })
 
   .views(self => ({
