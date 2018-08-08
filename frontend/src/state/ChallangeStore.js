@@ -54,8 +54,7 @@ const ChallangeStore = types
         self.challanges = yield API.FetchChallanges();
         getRoot(self).ViewStore.presentView(Views.PIN);
       } catch (err) {
-        self.error = err;
-        getRoot(self).ViewStore.presentView(Views.ERROR);
+        getRoot(self).ViewStore.presentView(Views.ERROR, err.message);
       }
     })
   }));

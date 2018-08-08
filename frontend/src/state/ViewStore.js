@@ -3,11 +3,13 @@ import { Views } from "../Constants";
 
 const ViewStore = types
   .model({
-    currentView: types.enumeration(Object.values(Views))
+    currentView: types.enumeration(Object.values(Views)),
+    error: types.maybeNull(types.string)
   })
   .actions(self => ({
-    presentView(newView) {
+    presentView(newView, error = null) {
       self.currentView = newView;
+      self.error = error;
     }
   }));
 
