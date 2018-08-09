@@ -15,7 +15,7 @@ type Pinned struct {
 	pins        []*model.Pin
 	authorCache *AuthorCache
 
-	NumChallanges int
+	NumChallenges int
 	NumOptions    int
 }
 
@@ -39,27 +39,27 @@ func (p *Pinned) Load() error {
 	return nil
 }
 
-// GetChallanges returns the amount of requested challanges.
-func (p *Pinned) GetChallanges() []*model.Challange {
-	cappedNumChallanges := cap(p.NumChallanges, len(p.pins))
+// GetChallenges returns the amount of requested challenges.
+func (p *Pinned) GetChallenges() []*model.Challenge {
+	cappedNumChallenges := cap(p.NumChallenges, len(p.pins))
 
-	var challanges []*model.Challange
+	var challenges []*model.Challenge
 	indexes := rand.Perm(len(p.pins))
 
-	for _, idx := range indexes[:cappedNumChallanges] {
+	for _, idx := range indexes[:cappedNumChallenges] {
 		pickedPin := p.pins[idx]
 
-		challange := &model.Challange{
+		challenge := &model.Challenge{
 			ID:      pickedPin.ID,
 			Text:    pickedPin.Text,
 			Options: p.getUniqueRandomAuthors(4, pickedPin.AuthorID),
 			Author:  p.authorCache.Get(pickedPin.AuthorID),
 		}
 
-		challanges = append(challanges, challange)
+		challenges = append(challenges, challenge)
 	}
 
-	return challanges
+	return challenges
 }
 
 func (p *Pinned) getUniqueRandomAuthors(number int, primer string) []*model.Author {
@@ -91,13 +91,13 @@ func (p *Pinned) getUniqueRandomAuthors(number int, primer string) []*model.Auth
 }
 
 // New returns a new initialized SuperSlack
-func New(fetcher datafetcher.DataFetcher, numChallanges, numOptions int) *Pinned {
+func New(fetcher datafetcher.DataFetcher, numChallenges, numOptions int) *Pinned {
 	return &Pinned{
 		fetcher:     fetcher,
 		pins:        []*model.Pin{},
 		authorCache: NewAuthorCache(),
 
-		NumChallanges: numChallanges,
+		NumChallenges: numChallenges,
 		NumOptions:    numOptions,
 	}
 }

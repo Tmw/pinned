@@ -1,16 +1,16 @@
 import { types } from "mobx-state-tree";
 
-import { ChallangeStore, CreateChallangeStore } from "./ChallangeStore";
+import { ChallengeStore, CreateChallengeStore } from "./ChallengeStore";
 import { ViewStore, CreateViewStore } from "./ViewStore";
 
 const Store = types.model({
   ViewStore,
-  ChallangeStore
+  ChallengeStore
 });
 
 const DefaultState = {
   ViewStore: CreateViewStore(),
-  ChallangeStore: CreateChallangeStore()
+  ChallengeStore: CreateChallengeStore()
 };
 
 export default Store.create(DefaultState);

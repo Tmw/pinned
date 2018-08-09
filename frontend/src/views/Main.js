@@ -9,7 +9,7 @@ import ScoreView from "./Score";
 
 class Main extends Component {
   componentDidMount() {
-    this.props.store.ChallangeStore.fetchChallanges();
+    this.props.store.ChallengeStore.fetchChallenges();
   }
 
   renderChildView() {

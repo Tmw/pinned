@@ -3,8 +3,8 @@ import { inject, observer } from "mobx-react";
 
 class PinView extends React.Component {
   renderOptions() {
-    const { ChallangeStore } = this.props.store;
-    const { options } = ChallangeStore.currentChallange;
+    const { ChallengeStore } = this.props.store;
+    const { options } = ChallengeStore.currentChallenge;
 
     return options.map((option, i) => (
       <li
@@ -23,25 +23,25 @@ class PinView extends React.Component {
   }
 
   optionClicked = guessId => {
-    this.props.store.ChallangeStore.currentChallange.answer(guessId);
+    this.props.store.ChallengeStore.currentChallenge.answer(guessId);
   };
 
   render() {
-    const { ChallangeStore } = this.props.store;
-    const challange = ChallangeStore.currentChallange;
-    const challangeIndex = ChallangeStore.currentChallangeIndex + 1;
-    const numChallanges = ChallangeStore.challanges.length;
+    const { ChallengeStore } = this.props.store;
+    const challenge = ChallengeStore.currentChallenge;
+    const challengeIndex = ChallengeStore.currentChallengeIndex + 1;
+    const numChallenges = ChallengeStore.challenges.length;
 
     return (
-      <div className="challangeView">
+      <div className="challengeView">
         <div className="progress--indicator">
           <span>
-            {challangeIndex} / {numChallanges}
+            {challengeIndex} / {numChallenges}
           </span>
         </div>
 
         <div className="quote--box">
-          <blockquote className="quote">{challange.text}</blockquote>
+          <blockquote className="quote">{challenge.text}</blockquote>
         </div>
 
         <ul className="option--list">{this.renderOptions()}</ul>

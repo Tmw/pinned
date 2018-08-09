@@ -5,9 +5,9 @@ import (
 	"net/http"
 )
 
-func (s *Server) getChallangesHandler(w http.ResponseWriter, r *http.Request) {
-	challanges := s.superslack.GetChallanges()
+func (s *Server) getChallengesHandler(w http.ResponseWriter, r *http.Request) {
+	challenges := s.superslack.GetChallenges()
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(challanges)
+	json.NewEncoder(w).Encode(challenges)
 }

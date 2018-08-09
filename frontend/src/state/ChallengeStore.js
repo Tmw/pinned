@@ -8,7 +8,7 @@ const Author = types.model({
   avatar: types.string
 });
 
-const Challange = types
+const Challenge = types
   .model({
     id: types.string,
     text: types.string,
@@ -18,11 +18,11 @@ const Challange = types
   })
   .actions(self => ({
     answer(authorId) {
-      const { ChallangeStore, ViewStore } = getRoot(self);
+      const { ChallengeStore, ViewStore } = getRoot(self);
 
       self.answeredAuthorId = authorId;
 
-      if (!ChallangeStore.currentChallange) {
+      if (!ChallengeStore.currentChallenge) {
         ViewStore.presentView(Views.SCORE);
       }
     }
@@ -33,25 +33,25 @@ const Challange = types
     }
   }));
 
-const ChallangeStore = types
+const ChallengeStore = types
   .model({
-    challanges: types.array(Challange)
+    challenges: types.array(Challenge)
   })
 
   .views(self => ({
-    get currentChallangeIndex() {
-      return self.challanges.filter(challange => challange.isAnswered).length;
+    get currentChallengeIndex() {
+      return self.challenges.filter(challenge => challenge.isAnswered).length;
     },
 
-    get currentChallange() {
-      return self.challanges.find(challange => !challange.isAnswered);
+    get currentChallenge() {
+      return self.challenges.find(challenge => !challenge.isAnswered);
     }
   }))
 
   .actions(self => ({
-    fetchChallanges: flow(function*() {
+    fetchChallenges: flow(function*() {
       try {
-        self.challanges = yield API.FetchChallanges();
+        self.challenges = yield API.FetchChallenges();
         getRoot(self).ViewStore.presentView(Views.PIN);
       } catch (err) {
         getRoot(self).ViewStore.presentView(Views.ERROR, err.message);
@@ -60,10 +60,10 @@ const ChallangeStore = types
   }));
 
 const Defaults = {
-  challanges: []
+  challenges: []
 };
 
-const CreateChallangeStore = overrides =>
-  ChallangeStore.create(Object.assign(Defaults, overrides));
+const CreateChallengeStore = overrides =>
+  ChallengeStore.create(Object.assign(Defaults, overrides));
 
-export { ChallangeStore, CreateChallangeStore };
+export { ChallengeStore, CreateChallengeStore };

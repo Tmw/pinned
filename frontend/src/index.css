@@ -59,8 +59,8 @@ body {
   color: var(--main-text-color);
 }
 
-/* ChallangeView styling */
-.challangeView {
+/* ChallengeView styling */
+.challengeView {
   height: 100%;
   display: flex;
   flex-direction: column;

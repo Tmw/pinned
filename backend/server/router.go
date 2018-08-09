@@ -9,7 +9,7 @@ import (
 func (s *Server) setupRoutes() http.Handler {
 	mux := mux.NewRouter()
 
-	mux.HandleFunc("/api/challanges", s.getChallangesHandler).Methods("GET")
+	mux.HandleFunc("/api/challenges", s.getChallengesHandler).Methods("GET")
 	mux.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 
 	return mux
