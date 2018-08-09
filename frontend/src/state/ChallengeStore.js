@@ -30,6 +30,10 @@ const Challenge = types
   .views(self => ({
     get isAnswered() {
       return self.answeredAuthorId !== null;
+    },
+
+    get isCorrect() {
+      return self.answeredAuthorId === self.author.id;
     }
   }));
 

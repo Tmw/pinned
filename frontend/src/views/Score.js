@@ -6,7 +6,7 @@ class ScoreView extends React.Component {
     const { ChallengeStore } = this.props.store;
 
     const countScore = (score, challenge) =>
-      challenge.answeredAuthorId === challenge.author.id ? score + 1 : score;
+      challenge.isCorrect ? score + 1 : score;
 
     const totalScore = ChallengeStore.challenges.reduce(countScore, 0);
 
