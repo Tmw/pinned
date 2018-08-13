@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Provider } from "mobx-react";
-import Main from "./views/Main";
-import Store from "./state";
+import Main from "views/Main";
+import Store from "state";
 
 class App extends Component {
   render() {

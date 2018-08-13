@@ -1,5 +1,5 @@
 import { types } from "mobx-state-tree";
-import { Views } from "../Constants";
+import { Views } from "Constants";
 
 const ViewStore = types
   .model({

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
-import { Views } from "../Constants";
-import LoaderView from "./Loader";
-import ErrorView from "./Error";
-import PinView from "./Pin";
-import ScoreView from "./Score";
+import { Views } from "Constants";
+import LoaderView from "views/Loader";
+import ErrorView from "views/Error";
+import PinView from "views/Pin";
+import ScoreView from "views/Score";
 
 class Main extends Component {
   componentDidMount() {

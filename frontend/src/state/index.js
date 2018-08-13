@@ -1,7 +1,7 @@
 import { types } from "mobx-state-tree";
 
-import { ChallengeStore, CreateChallengeStore } from "./ChallengeStore";
-import { ViewStore, CreateViewStore } from "./ViewStore";
+import { ChallengeStore, CreateChallengeStore } from "state/ChallengeStore";
+import { ViewStore, CreateViewStore } from "state/ViewStore";
 
 const Store = types.model({
   ViewStore,

@@ -1,6 +1,6 @@
 import { types, flow, getRoot } from "mobx-state-tree";
-import { Views } from "../Constants";
-import API from "../services/API";
+import { Views } from "Constants";
+import API from "services/API";
 
 const Author = types.model({
   id: types.string,
