@@ -33,7 +33,7 @@ class PinView extends React.Component {
     const numChallenges = ChallengeStore.challenges.length;
 
     return (
-      <div className="challengeView">
+      <div className="challenge-view">
         <div className="progress--indicator">
           <span>
             {challengeIndex} / {numChallenges}

@@ -36,7 +36,6 @@ body {
 
 .option {
   cursor: pointer;
-  /* margin-right: 30px; */
 }
 
 .option--avatar {
@@ -60,7 +59,7 @@ body {
 }
 
 /* ChallengeView styling */
-.challengeView {
+.challenge-view {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -68,7 +67,7 @@ body {
   justify-content: center;
 }
 
-/* Quote card*/
+/* Quote card */
 .quote--box {
   background-color: var(--offset-background-color);
   border-radius: 5px;
