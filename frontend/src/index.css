@@ -107,6 +107,53 @@ body {
   font-weight: bold;
 }
 
+/* Score View */
+.score-view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.score--box {
+  background-color: var(--offset-background-color);
+  border-radius: 5px;
+  width: 800px;
+  padding: 20px;
+}
+
+.score--stars {
+  font-size: 6em;
+  text-align: center;
+  letter-spacing: 10pt;
+  color: var(--main-text-color);
+}
+
+.score--box p {
+  color: var(--main-text-color);
+  text-align: center;
+}
+
+.score--box button {
+  border: none;
+  padding: 10px 30px;
+  font-size: 1em;
+  border-radius: 4px;
+  border: 1px solid #dddddd;
+  cursor: pointer;
+  transition: border-color, 0.2s;
+  outline: none;
+}
+
+.score--box button:hover {
+  border: 1px solid var(--accent-color);
+}
+
+.center {
+  text-align: center;
+}
+
 /* Loader View */
 .loader-view {
   height: 100%;
