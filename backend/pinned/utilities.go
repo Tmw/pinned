@@ -1,6 +1,6 @@
 package pinned
 
-func cap(a, b int) int {
+func max(a, b int) int {
 	if a > b {
 		return b
 	}
