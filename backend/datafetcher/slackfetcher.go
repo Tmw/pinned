@@ -25,6 +25,11 @@ func (sf *SlackFetcher) FetchUsers() ([]*model.Author, error) {
 	// iterate over Slack results, inflating into Author models
 	authors := []*model.Author{}
 	for _, u := range users {
+		// we don't want bot users
+		if u.IsBot {
+			continue
+		}
+
 		// inflate to Author object
 		a := &model.Author{
 			ID:     u.ID,
