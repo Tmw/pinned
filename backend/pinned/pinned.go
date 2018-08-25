@@ -41,12 +41,12 @@ func (p *Pinned) Load() error {
 
 // GetChallenges returns the amount of requested challenges.
 func (p *Pinned) GetChallenges() []*model.Challenge {
-	cappedNumChallenges := max(p.NumChallenges, len(p.pins))
+	maxNumChallenges := max(p.NumChallenges, len(p.pins))
 
 	var challenges []*model.Challenge
 	indexes := rand.Perm(len(p.pins))
 
-	for _, idx := range indexes[:cappedNumChallenges] {
+	for _, idx := range indexes[:maxNumChallenges] {
 		pickedPin := p.pins[idx]
 
 		challenge := &model.Challenge{
