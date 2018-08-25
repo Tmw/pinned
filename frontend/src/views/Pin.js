@@ -1,5 +1,6 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
+import { emojify } from "react-emojione";
 
 class PinView extends React.Component {
   renderOptions() {
@@ -41,7 +42,9 @@ class PinView extends React.Component {
         </div>
 
         <div className="quote--box">
-          <blockquote className="quote">{challenge.text}</blockquote>
+          <blockquote className="quote">
+            {emojify(challenge.text, { output: "unicode" })}
+          </blockquote>
         </div>
 
         <ul className="option--list">{this.renderOptions()}</ul>
