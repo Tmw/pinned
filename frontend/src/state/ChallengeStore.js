@@ -12,7 +12,7 @@ const Challenge = types
   .model({
     id: types.string,
     text: types.string,
-    options: types.array(Author),
+    choices: types.array(Author),
     author: Author,
     answeredAuthorId: types.maybeNull(types.string)
   })

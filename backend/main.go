@@ -13,7 +13,7 @@ import (
 
 type config struct {
 	NumChallenges int    `env:"NUM_CHALLENGES" envDefault:"5"`
-	NumAuthors    int    `env:"NUM_AUTHORS" envDefault:"4"`
+	NumChoices    int    `env:"NUM_CHOICES" envDefault:"4"`
 	SlackToken    string `env:"SLACK_TOKEN,required"`
 	SlackChannel  string `env:"SLACK_CHANNEL" envDefault:"general"`
 	ServerPort    int    `env:"SERVER_PORT" envDefault:"4000"`
@@ -36,7 +36,7 @@ func init() {
 	p = pinned.New(
 		datafetcher.New(cfg.SlackToken, cfg.SlackChannel),
 		cfg.NumChallenges,
-		cfg.NumAuthors,
+		cfg.NumChoices,
 	)
 	srv = server.New(p)
 }

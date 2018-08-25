@@ -12,14 +12,14 @@ import (
 type Pinned struct {
 	fetcher datafetcher.DataFetcher
 
-	pins        []*model.Pin
-	authorCache *AuthorCache
+	pins      []*model.Pin
+	userIndex *Index
 
 	NumChallenges int
-	NumOptions    int
+	NumChoices    int
 }
 
-// Load is used to fetch Users and Pins
+// Load fetches Users and Pins using the provided DataFetcher
 func (p *Pinned) Load() error {
 	rand.Seed(time.Now().Unix())
 
@@ -28,7 +28,18 @@ func (p *Pinned) Load() error {
 		return err
 	}
 
-	p.authorCache.Add(users)
+	// NOTE: Not sure why we need to iterate over the slice
+	// again and append it to an []Indexable slice to make it
+	// be accepted by our variadic function that ingests Indexables..
+
+	// but hey - such is life for now.. :)
+
+	indexables := make([]Indexable, len(users))
+	for i, user := range users {
+		indexables[i] = user
+	}
+
+	p.userIndex.Store(indexables...)
 
 	pins, err := p.fetcher.FetchPins()
 	if err != nil {
@@ -39,65 +50,70 @@ func (p *Pinned) Load() error {
 	return nil
 }
 
-// GetChallenges returns the amount of requested challenges.
+// GetChallenges returns the requested amount of challenges
 func (p *Pinned) GetChallenges() []*model.Challenge {
-	maxNumChallenges := max(p.NumChallenges, len(p.pins))
-
-	var challenges []*model.Challenge
+	numChallenges := max(p.NumChallenges, len(p.pins))
+	challenges := make([]*model.Challenge, numChallenges)
 	indexes := rand.Perm(len(p.pins))
 
-	for _, idx := range indexes[:maxNumChallenges] {
-		pickedPin := p.pins[idx]
+	for i, idx := range indexes[:numChallenges] {
+		pin := p.pins[idx]
 
-		challenge := &model.Challenge{
-			ID:      pickedPin.ID,
-			Text:    pickedPin.Text,
-			Options: p.getUniqueRandomAuthors(4, pickedPin.AuthorID),
-			Author:  p.authorCache.Get(pickedPin.AuthorID),
+		challenges[i] = &model.Challenge{
+			ID:      pin.ID,
+			Text:    pin.Text,
+			Choices: p.generateChoices(4, pin.AuthorID),
+			Author:  p.userIndex.Get(pin.AuthorID).(*model.User),
 		}
-
-		challenges = append(challenges, challenge)
 	}
 
 	return challenges
 }
 
-func (p *Pinned) getUniqueRandomAuthors(number int, primer string) []*model.Author {
-	// first pluck unique keys
-	authorKeys := []string{primer}
-	keys := p.authorCache.Keys()
+func (p *Pinned) generateChoices(number int, authorID string) []*model.User {
+	// first pluck author IDs but already provide actual author ID
+	userIDs := []string{authorID}
+	keys := p.userIndex.Keys()
 
 	for _, idx := range rand.Perm(len(keys)) {
-		candidateKey := keys[idx]
+		k := keys[idx]
 
-		if !contains(authorKeys, candidateKey) {
-			authorKeys = append(authorKeys, candidateKey)
+		// Skip bot users for available choices
+		if p.userIndex.Get(k).(*model.User).IsBot {
+			continue
 		}
 
-		// if desired number of authors is reached - break loop
-		if len(authorKeys) == number {
+		// Skip if the user is already in the list
+		if contains(userIDs, k) {
+			continue
+		}
+
+		// Add author id to the list of ids
+		userIDs = append(userIDs, k)
+
+		// Break the loop once we've reached desired number of users
+		if len(userIDs) == number {
 			break
 		}
 	}
 
-	// Ok; now look up actual author for every ID,
-	// but do it in a randomized order.
-	authors := []*model.Author{}
-	for _, idx := range rand.Perm(number) {
-		authors = append(authors, p.authorCache.Get(authorKeys[idx]))
+	// Last step is to look up actual users by ID in randomized order
+	users := make([]*model.User, number)
+	for i, idx := range rand.Perm(number) {
+		users[i] = p.userIndex.Get(userIDs[idx]).(*model.User)
 	}
 
-	return authors
+	return users
 }
 
-// New returns a new initialized SuperSlack
-func New(fetcher datafetcher.DataFetcher, numChallenges, numOptions int) *Pinned {
+// New returns a new initialized Pinned
+func New(fetcher datafetcher.DataFetcher, numChallenges, numChoices int) *Pinned {
 	return &Pinned{
-		fetcher:     fetcher,
-		pins:        []*model.Pin{},
-		authorCache: NewAuthorCache(),
+		fetcher:   fetcher,
+		pins:      []*model.Pin{},
+		userIndex: NewIndex(),
 
 		NumChallenges: numChallenges,
-		NumOptions:    numOptions,
+		NumChoices:    numChoices,
 	}
 }

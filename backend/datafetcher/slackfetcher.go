@@ -15,33 +15,25 @@ type SlackFetcher struct {
 }
 
 // FetchUsers fetches users from Slack
-func (sf *SlackFetcher) FetchUsers() ([]*model.Author, error) {
+func (sf *SlackFetcher) FetchUsers() ([]*model.User, error) {
 	// fetch from Slack API
-	users, err := sf.client.GetUsers()
+	slackUsers, err := sf.client.GetUsers()
 	if err != nil {
 		return nil, err
 	}
 
-	// iterate over Slack results, inflating into Author models
-	authors := []*model.Author{}
-	for _, u := range users {
-		// we don't want bot users
-		if u.IsBot {
-			continue
+	// Transform into model.User structs
+	users := make([]*model.User, len(slackUsers))
+	for i, user := range slackUsers {
+		users[i] = &model.User{
+			ID:     user.ID,
+			Name:   user.Name,
+			Avatar: user.Profile.Image192,
+			IsBot:  user.IsBot,
 		}
-
-		// inflate to Author object
-		a := &model.Author{
-			ID:     u.ID,
-			Name:   u.Name,
-			Avatar: u.Profile.Image192,
-		}
-
-		// and persist the author in the map
-		authors = append(authors, a)
 	}
 
-	return authors, nil
+	return users, nil
 }
 
 // FetchPins fetches pins from Slack

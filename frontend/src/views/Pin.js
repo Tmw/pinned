@@ -3,22 +3,22 @@ import { inject, observer } from "mobx-react";
 import { emojify } from "react-emojione";
 
 class PinView extends React.Component {
-  renderOptions() {
+  renderChoices() {
     const { ChallengeStore } = this.props.store;
-    const { options } = ChallengeStore.currentChallenge;
+    const { choices } = ChallengeStore.currentChallenge;
 
-    return options.map((option, i) => (
+    return choices.map((choice, i) => (
       <li
         className="option"
         key={i}
-        onClick={e => this.optionClicked(option.id)}
+        onClick={e => this.optionClicked(choice.id)}
       >
         <img
           className="option--avatar"
-          src={option.avatar}
-          alt={`avatar of ${option.name}`}
+          src={choice.avatar}
+          alt={`avatar of ${choice.name}`}
         />
-        <p className="option--name">{option.name}</p>
+        <p className="option--name">{choice.name}</p>
       </li>
     ));
   }
@@ -47,7 +47,7 @@ class PinView extends React.Component {
           </blockquote>
         </div>
 
-        <ul className="option--list">{this.renderOptions()}</ul>
+        <ul className="option--list">{this.renderChoices()}</ul>
       </div>
     );
   }

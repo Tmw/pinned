@@ -8,6 +8,6 @@ import (
 type Challenge struct {
 	ID      uuid.UUID `json:"id"`
 	Text    string    `json:"text"`
-	Options []*Author `json:"options"`
-	Author  *Author   `json:"author"`
+	Choices []*User   `json:"choices"`
+	Author  *User     `json:"author"`
 }

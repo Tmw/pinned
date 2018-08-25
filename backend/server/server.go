@@ -9,7 +9,7 @@ import (
 
 // Server sets up a basic HTTP server
 type Server struct {
-	superslack *pinned.Pinned
+	pinned *pinned.Pinned
 }
 
 // Start starts the HTTP server on the given port
@@ -19,8 +19,8 @@ func (s *Server) Start(port int) {
 }
 
 // New configures and returns a Server instance
-func New(superslack *pinned.Pinned) *Server {
+func New(pinned *pinned.Pinned) *Server {
 	return &Server{
-		superslack: superslack,
+		pinned: pinned,
 	}
 }
