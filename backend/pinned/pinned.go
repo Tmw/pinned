@@ -1,7 +1,10 @@
 package pinned
 
 import (
+	"fmt"
 	"math/rand"
+	"regexp"
+	"sync"
 	"time"
 
 	"github.com/tmw/pinned/backend/datafetcher"
@@ -47,6 +50,12 @@ func (p *Pinned) Load() error {
 	}
 
 	p.pins = pins
+
+	// unfurl all usernames
+	for _, pin := range p.pins {
+		pin.Text = p.unfurlMention(pin.Text)
+	}
+
 	return nil
 }
 
@@ -68,6 +77,25 @@ func (p *Pinned) GetChallenges() []*model.Challenge {
 	}
 
 	return challenges
+}
+
+// unfurlMention will take the <@39cm9pd> and convert them
+// to their actual user names using the userIndex.
+
+func (p *Pinned) unfurlMention(message string) string {
+	// IMPROVE: Not sure we supposed to match twice here? :/
+
+	r := userMentionRegex()
+	return r.ReplaceAllStringFunc(message, func(m string) string {
+		userID := r.FindStringSubmatch(m)[1]
+		if user := p.userIndex.Get(userID).(*model.User); user != nil {
+			return fmt.Sprintf("<@%s>", user.Name)
+		}
+
+		// When the user is not found in the index for some reason,
+		// there's not much else to do then return the ol' john doe :)
+		return "<@unknown>"
+	})
 }
 
 func (p *Pinned) generateChoices(number int, authorID string) []*model.User {
@@ -106,8 +134,22 @@ func (p *Pinned) generateChoices(number int, authorID string) []*model.User {
 	return users
 }
 
+var regexInstance *regexp.Regexp
+var regexInstanceOnce sync.Once
+
+func userMentionRegex() *regexp.Regexp {
+	// making sure we're only compiling the regex once
+	regexInstanceOnce.Do(func() {
+		regexInstance = regexp.MustCompile("<@([a-zA-Z0-9]+)>")
+	})
+
+	return regexInstance
+}
+
 // New returns a new initialized Pinned
 func New(fetcher datafetcher.DataFetcher, numChallenges, numChoices int) *Pinned {
+
+	// Initialize the rest of the pinned instance
 	return &Pinned{
 		fetcher:   fetcher,
 		pins:      []*model.Pin{},
