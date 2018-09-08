@@ -37,6 +37,9 @@ const Challenge = types
     }
   }));
 
+const sumScore = (score, challenge) =>
+  challenge.isCorrect ? score + 1 : score;
+
 const ChallengeStore = types
   .model({
     challenges: types.array(Challenge)
@@ -49,6 +52,10 @@ const ChallengeStore = types
 
     get currentChallenge() {
       return self.challenges.find(challenge => !challenge.isAnswered);
+    },
+
+    get score() {
+      return self.challenges.reduce(sumScore, 0);
     }
   }))
 

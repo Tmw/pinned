@@ -2,26 +2,26 @@ import { inject, observer } from "mobx-react";
 import React from "react";
 import { Views } from "Constants";
 
-import Starbox from "components/Starbox";
+import StarBox from "components/StarBox";
 import PageTitle from "components/PageTitle";
 
 class ScoreView extends React.Component {
-  handleRetryClicked = e => {
-    const { ChallengeStore, ViewStore } = this.props.store;
+  get challengeStore() {
+    return this.props.store.ChallengeStore;
+  }
 
-    ChallengeStore.fetchChallenges();
-    ViewStore.presentView(Views.LOADING);
+  get viewStore() {
+    return this.props.store.ViewStore;
+  }
+
+  handleRetryClicked = () => {
+    this.challengeStore.fetchChallenges();
+    this.viewStore.presentView(Views.LOADING);
   };
 
   render() {
-    const { ChallengeStore } = this.props.store;
-
-    const countScore = (score, challenge) =>
-      challenge.isCorrect ? score + 1 : score;
-
-    const totalChallenges = ChallengeStore.challenges.length;
-
-    const totalScore = ChallengeStore.challenges.reduce(countScore, 0);
+    const score = this.challengeStore.score;
+    const numChallenges = this.challengeStore.challenges.length;
 
     return (
       <React.Fragment>
@@ -29,10 +29,12 @@ class ScoreView extends React.Component {
 
         <div className="score-view">
           <div className="score--box">
-            <Starbox stars={totalScore} total={totalChallenges} />
+            <StarBox stars={score} total={numChallenges} />
+
             <p>
-              You scored {totalScore} out of {totalChallenges}!
+              You scored {score} out of {numChallenges}!
             </p>
+
             <div className="center">
               <button onClick={this.handleRetryClicked}>Try again</button>
             </div>
