@@ -1,10 +1,10 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
-import { Helmet } from "react-helmet";
 
 import ProgressIndicator from "components/ProgressIndicator";
 import PinBox from "components/PinBox";
 import OptionBox from "containers/OptionBox";
+import PageTitle from "components/PageTitle";
 
 class PinView extends React.Component {
   get challengeStore() {
@@ -22,7 +22,7 @@ class PinView extends React.Component {
 
     return (
       <React.Fragment>
-        <Helmet title={`Pinned! - pin ${challengeIndex} / ${numChallenges}`} />
+        <PageTitle subtitle={`pin ${challengeIndex} / ${numChallenges}`} />
 
         <div className="challenge-view">
           <ProgressIndicator step={challengeIndex} total={numChallenges} />

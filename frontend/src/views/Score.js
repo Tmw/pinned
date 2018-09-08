@@ -1,9 +1,9 @@
 import { inject, observer } from "mobx-react";
-import { Helmet } from "react-helmet";
 import React from "react";
 import { Views } from "Constants";
 
 import Starbox from "components/Starbox";
+import PageTitle from "components/PageTitle";
 
 class ScoreView extends React.Component {
   handleRetryClicked = e => {
@@ -25,7 +25,7 @@ class ScoreView extends React.Component {
 
     return (
       <React.Fragment>
-        <Helmet title="Pinned! - Your report card!" />
+        <PageTitle subtitle="Your report card!" />
 
         <div className="score-view">
           <div className="score--box">

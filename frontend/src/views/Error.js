@@ -1,6 +1,6 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
-import { Helmet } from "react-helmet";
+import PageTitle from "components/PageTitle";
 
 class ErrorView extends React.Component {
   render() {
@@ -8,7 +8,7 @@ class ErrorView extends React.Component {
 
     return (
       <React.Fragment>
-        <Helmet title="Pinned! - Uh-Oh!" />
+        <PageTitle subtitle="Uh-Oh!" />
 
         <div className="error-view">
           <h1>Something went wrong! :(</h1>
