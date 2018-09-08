@@ -11,6 +11,8 @@ const makeStarsString = (stars, total) =>
     ...makeArray(total - stars, STAR_EMPTY)
   ].reduce((acc, slot) => acc + slot, "");
 
-export default ({ stars, total }) => (
+const StarBox = ({ stars, total }) => (
   <div className="score--stars">{makeStarsString(stars, total)}</div>
 );
+
+export default StarBox;
