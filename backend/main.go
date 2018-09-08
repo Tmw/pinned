@@ -2,6 +2,8 @@ package main
 
 import (
 	"log"
+	"os"
+	"os/signal"
 
 	"github.com/tmw/pinned/backend/datafetcher"
 	"github.com/tmw/pinned/backend/pinned"
@@ -45,6 +47,15 @@ func main() {
 	// calling load will fetch all required objects
 	p.Load()
 
-	// start HTTP server
-	srv.Start(cfg.ServerPort)
+	// start HTTP server async
+	go srv.Start(cfg.ServerPort)
+
+	// wait for kill signal and gracefully exit
+	sc := make(chan os.Signal)
+	signal.Notify(sc, os.Interrupt)
+
+	<-sc
+
+	log.Println("Stopping server ...")
+	srv.Stop()
 }

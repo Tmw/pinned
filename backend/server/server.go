@@ -33,6 +33,10 @@ func (s *Server) Start(port int) {
 		log.Fatalf("error while starting server: %v\n", err)
 	}
 }
+
+// Stop does a graceful stop of the server
+func (s *Server) Stop() {
+	s.instance.Close()
 }
 
 // New configures and returns a Server instance
