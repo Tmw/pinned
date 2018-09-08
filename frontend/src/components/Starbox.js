@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const STAR_EMPTY = "☆";
 const STAR_FILLED = "★";
@@ -14,5 +15,10 @@ const makeStarsString = (stars, total) =>
 const StarBox = ({ stars, total }) => (
   <div className="score--stars">{makeStarsString(stars, total)}</div>
 );
+
+StarBox.propTypes = {
+  stars: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired
+};
 
 export default StarBox;
