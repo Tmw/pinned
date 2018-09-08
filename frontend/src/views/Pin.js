@@ -1,5 +1,6 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
+import { Helmet } from "react-helmet";
 
 import ProgressIndicator from "components/ProgressIndicator";
 import PinBox from "components/PinBox";
@@ -20,14 +21,18 @@ class PinView extends React.Component {
       numChallenges = this.challengeStore.challenges.length;
 
     return (
-      <div className="challenge-view">
-        <ProgressIndicator step={challengeIndex} total={numChallenges} />
-        <PinBox text={challenge.text} />
-        <OptionBox
-          options={challenge.choices}
-          onOptionClicked={this.optionClickedHandler}
-        />
-      </div>
+      <React.Fragment>
+        <Helmet title={`Pinned! - pin ${challengeIndex} / ${numChallenges}`} />
+
+        <div className="challenge-view">
+          <ProgressIndicator step={challengeIndex} total={numChallenges} />
+          <PinBox text={challenge.text} />
+          <OptionBox
+            options={challenge.choices}
+            onOptionClicked={this.optionClickedHandler}
+          />
+        </div>
+      </React.Fragment>
     );
   }
 }

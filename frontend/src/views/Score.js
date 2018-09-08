@@ -1,4 +1,5 @@
 import { inject, observer } from "mobx-react";
+import { Helmet } from "react-helmet";
 import React from "react";
 import { Views } from "Constants";
 
@@ -23,17 +24,21 @@ class ScoreView extends React.Component {
     const totalScore = ChallengeStore.challenges.reduce(countScore, 0);
 
     return (
-      <div className="score-view">
-        <div className="score--box">
-          <Starbox stars={totalScore} total={totalChallenges} />
-          <p>
-            You scored {totalScore} out of {totalChallenges}!
-          </p>
-          <div className="center">
-            <button onClick={this.handleRetryClicked}>Try again</button>
+      <React.Fragment>
+        <Helmet title="Pinned! - Your report card!" />
+
+        <div className="score-view">
+          <div className="score--box">
+            <Starbox stars={totalScore} total={totalChallenges} />
+            <p>
+              You scored {totalScore} out of {totalChallenges}!
+            </p>
+            <div className="center">
+              <button onClick={this.handleRetryClicked}>Try again</button>
+            </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
