@@ -1,4 +1,4 @@
-package datafetcher
+package fetcher
 
 import (
 	"fmt"

@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/tmw/pinned/backend/datafetcher"
+	"github.com/tmw/pinned/backend/fetcher"
 	"github.com/tmw/pinned/backend/pinned"
 	"github.com/tmw/pinned/backend/server"
 
@@ -36,7 +36,7 @@ func init() {
 	}
 
 	p = pinned.New(
-		datafetcher.New(cfg.SlackToken, cfg.SlackChannel),
+		fetcher.New(cfg.SlackToken, cfg.SlackChannel),
 		cfg.NumChallenges,
 		cfg.NumChoices,
 	)

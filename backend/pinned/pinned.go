@@ -7,13 +7,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/tmw/pinned/backend/datafetcher"
+	"github.com/tmw/pinned/backend/fetcher"
 	"github.com/tmw/pinned/backend/model"
 )
 
 // Pinned is our main quiz logic.
 type Pinned struct {
-	fetcher datafetcher.DataFetcher
+	fetcher fetcher.Fetcher
 
 	pins      []*model.Pin
 	userIndex *Index
@@ -22,7 +22,7 @@ type Pinned struct {
 	NumChoices    int
 }
 
-// Load fetches Users and Pins using the provided DataFetcher
+// Load fetches Users and Pins using the provided fetcher
 func (p *Pinned) Load() error {
 	rand.Seed(time.Now().Unix())
 
@@ -139,7 +139,7 @@ func userMentionRegex() *regexp.Regexp {
 }
 
 // New returns a new initialized Pinned
-func New(fetcher datafetcher.DataFetcher, numChallenges, numChoices int) *Pinned {
+func New(fetcher fetcher.Fetcher, numChallenges, numChoices int) *Pinned {
 
 	// Initialize the rest of the pinned instance
 	return &Pinned{
