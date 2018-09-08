@@ -2,40 +2,7 @@ import { types, flow, getRoot } from "mobx-state-tree";
 import { Views } from "Constants";
 import API from "services/API";
 
-const Author = types.model({
-  id: types.string,
-  name: types.string,
-  avatar: types.string
-});
-
-const Challenge = types
-  .model({
-    id: types.string,
-    text: types.string,
-    choices: types.array(Author),
-    author: Author,
-    answeredAuthorId: types.maybeNull(types.string)
-  })
-  .actions(self => ({
-    answer(authorId) {
-      const { ChallengeStore, ViewStore } = getRoot(self);
-
-      self.answeredAuthorId = authorId;
-
-      if (!ChallengeStore.currentChallenge) {
-        ViewStore.presentView(Views.SCORE);
-      }
-    }
-  }))
-  .views(self => ({
-    get isAnswered() {
-      return self.answeredAuthorId !== null;
-    },
-
-    get isCorrect() {
-      return self.answeredAuthorId === self.author.id;
-    }
-  }));
+import Challenge from "state/Challenge";
 
 const sumScore = (score, challenge) =>
   challenge.isCorrect ? score + 1 : score;
