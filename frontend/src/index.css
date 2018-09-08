@@ -23,6 +23,9 @@ body {
 .App {
   height: 100%;
 }
+.highlight {
+  color: var(--accent-color);
+}
 
 /* Author option card */
 .option--list {

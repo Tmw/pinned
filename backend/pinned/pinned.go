@@ -73,12 +73,16 @@ func (p *Pinned) GetChallenges() []*model.Challenge {
 	return challenges
 }
 
-// unfurlMention will take the <@39cm9pd> and convert them
-// to their actual user names using the userIndex.
-
+// unfurlMention will take mention sequences of Slack and convert them
+// into their actual user- or channel names. It'll look upt the user IDs
+// using the user index and replace the <@39cm9pd> with the users name.
+// For the <@here|here> and <#CJDF989D|general> it'll use the second part
+// after the pipe symbol.
 func (p *Pinned) unfurlMention(message string) string {
 	r := userMentionRegex()
-	return r.ReplaceAllStringFunc(message, func(m string) string {
+
+	// replace occurrences of <@U9390238> into their actual usernames
+	message = r.ReplaceAllStringFunc(message, func(m string) string {
 		userID := r.FindStringSubmatch(m)[1]
 		if user := p.userIndex.Get(userID).(*model.User); user != nil {
 			return fmt.Sprintf("<@%s>", user.Name)
@@ -88,6 +92,26 @@ func (p *Pinned) unfurlMention(message string) string {
 		// there's not much else to do then return the ol' john doe :)
 		return "<@unknown>"
 	})
+
+	// replace channel references (<#C989DF|general>) or channel mentions
+	// (<@here|here>) into plane <@here> and <#general>. Front-end will make sure
+	// these sequences are highlighted.
+	r = channelMentionRegex()
+	message = r.ReplaceAllStringFunc(message, func(m string) string {
+		result := r.FindStringSubmatch(m)
+		switch result[1] {
+		case "#": // channel reference (eg. #general)
+			return fmt.Sprintf("<#%s>", result[2])
+
+		case "!": //channel mention (eg. @here)
+			return fmt.Sprintf("<%s>", result[2])
+
+		default:
+			return m
+		}
+	})
+
+	return message
 }
 
 func (p *Pinned) generateChoices(number int, authorID string) []*model.User {
@@ -126,16 +150,28 @@ func (p *Pinned) generateChoices(number int, authorID string) []*model.User {
 	return users
 }
 
-var regexInstance *regexp.Regexp
-var regexInstanceOnce sync.Once
+var userRegexInstance *regexp.Regexp
+var userRegexInstanceOnce sync.Once
 
 func userMentionRegex() *regexp.Regexp {
 	// making sure we're only compiling the regex once
-	regexInstanceOnce.Do(func() {
-		regexInstance = regexp.MustCompile("<@([a-zA-Z0-9]+)>")
+	userRegexInstanceOnce.Do(func() {
+		userRegexInstance = regexp.MustCompile("<@([a-zA-Z0-9]+)>")
 	})
 
-	return regexInstance
+	return userRegexInstance
+}
+
+var channelRegexInstance *regexp.Regexp
+var channelRegexInstanceOnce sync.Once
+
+func channelMentionRegex() *regexp.Regexp {
+	// making sure we're only compiling the regex once
+	channelRegexInstanceOnce.Do(func() {
+		channelRegexInstance = regexp.MustCompile("<(!|#).+\\|(@?[a-zA-Z0-9]+)>")
+	})
+
+	return channelRegexInstance
 }
 
 // New returns a new initialized Pinned
