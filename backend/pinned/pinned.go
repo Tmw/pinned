@@ -31,12 +31,6 @@ func (p *Pinned) Load() error {
 		return err
 	}
 
-	// NOTE: Not sure why we need to iterate over the slice
-	// again and append it to an []Indexable slice to make it
-	// be accepted by our variadic function that ingests Indexables..
-
-	// but hey - such is life for now.. :)
-
 	indexables := make([]Indexable, len(users))
 	for i, user := range users {
 		indexables[i] = user
@@ -83,8 +77,6 @@ func (p *Pinned) GetChallenges() []*model.Challenge {
 // to their actual user names using the userIndex.
 
 func (p *Pinned) unfurlMention(message string) string {
-	// IMPROVE: Not sure we supposed to match twice here? :/
-
 	r := userMentionRegex()
 	return r.ReplaceAllStringFunc(message, func(m string) string {
 		userID := r.FindStringSubmatch(m)[1]
