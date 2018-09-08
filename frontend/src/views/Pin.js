@@ -1,53 +1,32 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
-import { emojify } from "react-emojione";
+
+import ProgressIndicator from "components/ProgressIndicator";
+import PinBox from "components/PinBox";
+import OptionBox from "containers/OptionBox";
 
 class PinView extends React.Component {
-  renderChoices() {
-    const { ChallengeStore } = this.props.store;
-    const { choices } = ChallengeStore.currentChallenge;
-
-    return choices.map((choice, i) => (
-      <li
-        className="option"
-        key={i}
-        onClick={e => this.optionClicked(choice.id)}
-      >
-        <img
-          className="option--avatar"
-          src={choice.avatar}
-          alt={`avatar of ${choice.name}`}
-        />
-        <p className="option--name">{choice.name}</p>
-      </li>
-    ));
+  get challengeStore() {
+    return this.props.store.ChallengeStore;
   }
 
-  optionClicked = guessId => {
-    this.props.store.ChallengeStore.currentChallenge.answer(guessId);
+  optionClickedHandler = optionID => {
+    this.challengeStore.currentChallenge.answer(optionID);
   };
 
   render() {
-    const { ChallengeStore } = this.props.store;
-    const challenge = ChallengeStore.currentChallenge;
-    const challengeIndex = ChallengeStore.currentChallengeIndex + 1;
-    const numChallenges = ChallengeStore.challenges.length;
+    const challenge = this.challengeStore.currentChallenge,
+      challengeIndex = this.challengeStore.currentChallengeIndex + 1,
+      numChallenges = this.challengeStore.challenges.length;
 
     return (
       <div className="challenge-view">
-        <div className="progress--indicator">
-          <span>
-            {challengeIndex} / {numChallenges}
-          </span>
-        </div>
-
-        <div className="quote--box">
-          <blockquote className="quote">
-            {emojify(challenge.text, { output: "unicode" })}
-          </blockquote>
-        </div>
-
-        <ul className="option--list">{this.renderChoices()}</ul>
+        <ProgressIndicator step={challengeIndex} total={numChallenges} />
+        <PinBox text={challenge.text} />
+        <OptionBox
+          options={challenge.choices}
+          onOptionClicked={this.optionClickedHandler}
+        />
       </div>
     );
   }
