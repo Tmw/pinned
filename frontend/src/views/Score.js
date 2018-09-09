@@ -2,7 +2,6 @@ import { inject, observer } from "mobx-react";
 import React from "react";
 import { Views } from "Constants";
 
-import StarBox from "components/StarBox";
 import PageTitle from "components/PageTitle";
 
 class ScoreView extends React.Component {
@@ -29,11 +28,28 @@ class ScoreView extends React.Component {
 
         <div className="score-view">
           <div className="score--box">
-            <StarBox stars={score} total={numChallenges} />
+            <h1>
+              <span role="img" aria-label="raised hands">
+                🙌
+              </span>
+            </h1>
+            <h1>
+              {score} out of {numChallenges}!
+            </h1>
 
-            <p>
-              You scored {score} out of {numChallenges}!
-            </p>
+            <ul>
+              {this.challengeStore.challenges.map((c, i) => (
+                <li
+                  key={i}
+                  className={`report-item ${c.isCorrect ? "green" : "red"}`}
+                />
+              ))}
+            </ul>
+            <br />
+            <br />
+            <br />
+
+            <div className="zigzag" />
 
             <div className="center">
               <button onClick={this.handleRetryClicked}>Try again</button>
