@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 const SLACK_LINK_REGEX = /<([#@:/a-zA-Z0-9.]+)+>/g;
 const toHighlighted = text => `<span class='highlight'>${text}</span>`;
 
-const WithSlackLinks = ({ children, highlight = false }) => {
+const WithSlackLinks = ({ children, highlighted = false }) => {
   const parsed = children.replace(
     SLACK_LINK_REGEX,
-    (_, ...groups) => (highlight ? toHighlighted(groups[0]) : groups[0])
+    (_, ...groups) => (highlighted ? toHighlighted(groups[0]) : groups[0])
   );
 
   return <span dangerouslySetInnerHTML={{ __html: parsed }} />;
@@ -15,7 +15,7 @@ const WithSlackLinks = ({ children, highlight = false }) => {
 
 WithSlackLinks.propTypes = {
   children: PropTypes.string.isRequired,
-  highlight: PropTypes.bool
+  highlighted: PropTypes.bool
 };
 
 export default WithSlackLinks;

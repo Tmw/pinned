@@ -7,7 +7,7 @@ import EmojiToUnicode from "components/EmojiToUnicode";
 const PinBox = ({ text }) => (
   <div className="quote--box">
     <blockquote className="quote">
-      <WithSlackLinks highlight>{EmojiToUnicode(text)}</WithSlackLinks>
+      <WithSlackLinks highlighted>{EmojiToUnicode(text)}</WithSlackLinks>
     </blockquote>
   </div>
 );
