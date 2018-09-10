@@ -1,22 +1,14 @@
 import React from "react";
-import { emojify } from "react-emojione";
 import PropTypes from "prop-types";
 
-const highlightRegex = /<([#@:/a-zA-Z0-9.]+)+>/g;
-const HighLightLinks = text =>
-  text.replace(
-    highlightRegex,
-    (full, ...groups) => `<span class='highlight'>${groups[0]}</span>`
-  );
+import WithSlackLinks from "components/WithSlackLinks";
+import EmojiToUnicode from "components/EmojiToUnicode";
 
 const PinBox = ({ text }) => (
   <div className="quote--box">
-    <blockquote
-      className="quote"
-      dangerouslySetInnerHTML={{
-        __html: HighLightLinks(emojify(text, { output: "unicode" }))
-      }}
-    />
+    <blockquote className="quote">
+      <WithSlackLinks highlight>{EmojiToUnicode(text)}</WithSlackLinks>
+    </blockquote>
   </div>
 );
 
