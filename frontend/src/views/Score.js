@@ -1,6 +1,7 @@
 import { inject, observer } from "mobx-react";
 import React from "react";
 import { Views } from "Constants";
+import EmojiToUnicode from "components/EmojiToUnicode";
 
 import PageTitle from "components/PageTitle";
 
@@ -43,7 +44,7 @@ class ScoreView extends React.Component {
                   key={i}
                   className={`report-item ${c.isCorrect ? "green" : "red"}`}
                 >
-                  {c.text}
+                  {EmojiToUnicode(c.text)}
                 </li>
               ))}
             </ul>
