@@ -9,6 +9,7 @@ const Option = ({ avatar, name, onClick }) => (
       alt={`avatar of ${name}`}
       width={192}
       height={192}
+      placeholderColor="#DEDEDE"
       className="option--avatar"
     />
     <p className="option--name">{name}</p>
