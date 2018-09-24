@@ -42,7 +42,9 @@ class ScoreView extends React.Component {
                 <li
                   key={i}
                   className={`report-item ${c.isCorrect ? "green" : "red"}`}
-                />
+                >
+                  {c.text}
+                </li>
               ))}
             </ul>
             <br />
