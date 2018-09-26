@@ -146,7 +146,7 @@ body {
 .score--box li {
   position: relative;
   margin: 10px;
-  padding: 10px 0px 10px 40px;
+  padding: 10px 0px 10px 30px;
   color: var(--main-text-color);
 }
 
@@ -154,9 +154,9 @@ body {
   position: absolute;
   content: "";
   left: 0px;
-  top: calc(50% - 10px);
-  width: 20px;
-  height: 20px;
+  top: calc(50% - 7px);
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
 }
 

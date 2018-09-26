@@ -2,6 +2,7 @@ import { inject, observer } from "mobx-react";
 import React from "react";
 import { Views } from "Constants";
 import EmojiToUnicode from "components/EmojiToUnicode";
+import WithSlackLinks from "components/WithSlackLinks";
 
 import PageTitle from "components/PageTitle";
 
@@ -44,7 +45,7 @@ class ScoreView extends React.Component {
                   key={i}
                   className={`report-item ${c.isCorrect ? "green" : "red"}`}
                 >
-                  {EmojiToUnicode(c.text)}
+                  <WithSlackLinks>{EmojiToUnicode(c.text)}</WithSlackLinks>
                 </li>
               ))}
             </ul>
