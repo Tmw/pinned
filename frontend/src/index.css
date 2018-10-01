@@ -34,8 +34,9 @@ body {
 }
 
 .option {
+  position: relative;
   --vertical-gutter: 5px;
-  --horizontal-gutter: 10px;
+  --horizontal-gutter: 5px;
 
   width: calc(50% - var(--vertical-gutter));
   cursor: pointer;
@@ -46,6 +47,8 @@ body {
   margin-right: var(--vertical-gutter);
   margin-bottom: var(--horizontal-gutter);
   padding: 0;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .option:hover {
@@ -54,18 +57,35 @@ body {
 }
 
 .option--avatar {
+  display: block;
   width: 64px;
   height: 64px;
   position: relative;
+  padding: 0;
+  margin: 0;
 }
 
 .option--avatar:after {
   display: block;
   position: absolute;
   content: " ";
-  width: 200px;
-  height: 200px;
-  background-color: red;
+  width: 64px;
+  height: 64px;
+  top: 0;
+  left: 0;
+}
+
+.option:hover .option--avatar:after {
+  background-color: var(--pop-color);
+  opacity: 0.6;
+}
+
+.option:hover:after {
+  position: absolute;
+  display: block;
+  content: "→";
+  right: 0px;
+  background: green;
 }
 
 .option--name {

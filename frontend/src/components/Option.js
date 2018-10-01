@@ -4,14 +4,15 @@ import Image from "react-graceful-image";
 
 const Option = ({ avatar, name, onClick }) => (
   <div className="option" onClick={onClick}>
-    <Image
-      src={avatar}
-      alt={`avatar of ${name}`}
-      width={64}
-      height={64}
-      placeholderColor="#DEDEDE"
-      className="option--avatar"
-    />
+    <figure className="option--avatar">
+      <Image
+        src={avatar}
+        alt={`avatar of ${name}`}
+        width={64}
+        height={64}
+        placeholderColor="#DEDEDE"
+      />
+    </figure>
     <p className="option--name">{name}</p>
   </div>
 );
