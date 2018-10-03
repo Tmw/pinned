@@ -56,7 +56,12 @@ class ScoreView extends React.Component {
             <div className="zigzag" />
 
             <div className="center">
-              <button onClick={this.handleRetryClicked}>Try again</button>
+              <button
+                className="button button--big"
+                onClick={this.handleRetryClicked}
+              >
+                Try again
+              </button>
             </div>
           </div>
         </div>

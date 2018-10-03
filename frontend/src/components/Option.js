@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Image from "react-graceful-image";
 
 const Option = ({ avatar, name, onClick }) => (
-  <button className="option" onClick={onClick}>
+  <button className="button option" onClick={onClick}>
     <figure className="option--avatar">
       <Image
         src={avatar}
@@ -15,7 +15,7 @@ const Option = ({ avatar, name, onClick }) => (
     </figure>
 
     <div className="option--name">
-      <p>{name}</p>
+      <span>{name}</span>
     </div>
 
     <div className="option--arrow">

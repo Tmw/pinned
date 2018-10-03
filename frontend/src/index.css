@@ -3,6 +3,9 @@
   --pop-color: hotpink;
   --main-text-color: #666666;
   --offset-background-color: #ffffff;
+
+  --score-red-color: rgba(255, 65, 54, 0.8);
+  --score-green-color: rgba(61, 153, 112, 0.8);
 }
 
 /* Some resetting styles*/
@@ -34,6 +37,24 @@ body {
   flex-wrap: wrap;
 }
 
+/* Style general button style */
+.button {
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+
+  background-color: #ededed;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: background-color 100ms ease-in;
+}
+
+.button:hover {
+  background-color: var(--pop-color);
+  color: white;
+}
+
 /* Style the option button*/
 /* TODO: Rewrite the positioning to CSS grid */
 .option {
@@ -42,31 +63,15 @@ body {
   --horizontal-gutter: 5px;
 
   width: calc(50% - var(--vertical-gutter));
-  cursor: pointer;
-  border: 0;
-  outline: none;
   display: flex;
-  background-color: #ededed;
   margin-right: var(--vertical-gutter);
   margin-bottom: var(--horizontal-gutter);
-  padding: 0;
-  border-radius: 5px;
-  overflow: hidden;
-
-  transition: background-color 100ms ease-in;
-}
-
-.option:hover {
-  background-color: var(--pop-color);
-  color: white;
 }
 
 .option--avatar {
-  display: block;
   width: 64px;
   height: 64px;
   position: relative;
-  padding: 0;
   margin: 0;
 }
 
@@ -77,7 +82,6 @@ body {
   width: 64px;
   height: 64px;
   top: 0;
-  left: 0;
 }
 
 .option:hover .option--avatar:after {
@@ -95,7 +99,7 @@ body {
   align-items: center;
 }
 
-.option--name p {
+.option--name {
   padding-left: 10px;
 }
 
@@ -194,37 +198,22 @@ body {
   position: absolute;
   content: "";
   left: 0px;
-  top: calc(50% - 7px);
+  top: 0px;
   width: 14px;
-  height: 14px;
-  border-radius: 50%;
+  height: 100%;
 }
 
 .score--box li.green:before {
-  background-color: rgba(61, 153, 112, 0.8);
+  background-color: var(--score-green-color);
 }
 
 .score--box li.red:before {
-  background-color: rgba(255, 65, 54, 0.8);
+  background-color: var(--score-red-color);
 }
 
 .score--box button {
-  border: none;
-  padding: 15px 120px;
-  font-size: 1em;
-  border-radius: 6px;
-  color: #999;
+  padding: 25px 140px;
   font-weight: bold;
-  cursor: pointer;
-
-  box-shadow: 0 0 1px 0 #aaa;
-  transition: box-shadow 500ms;
-
-  outline: none;
-}
-
-.score--box button:hover {
-  box-shadow: 0 0 10px #ccc;
 }
 
 .center {
