@@ -1,7 +1,6 @@
 /* Basic Variables*/
 :root {
-  --background-color: #e1f7d5;
-  --accent-color: hotpink;
+  --pop-color: hotpink;
   --main-text-color: #666666;
   --offset-background-color: #ffffff;
 }
@@ -17,48 +16,103 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background-color: var(--background-color);
 }
 
 .App {
   height: 100%;
 }
+
 .highlight {
-  color: var(--accent-color);
+  color: var(--pop-color);
 }
 
 /* Author option card */
 .option--list {
-  margin-top: 40px;
-  list-style-type: none;
-  padding: 0;
   display: flex;
+  padding: 0;
   width: 600px;
-  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
+/* Style the option button*/
+/* TODO: Rewrite the positioning to CSS grid */
 .option {
+  display: flex;
+  --vertical-gutter: 5px;
+  --horizontal-gutter: 5px;
+
+  width: calc(50% - var(--vertical-gutter));
   cursor: pointer;
+  border: 0;
+  outline: none;
+  display: flex;
+  background-color: #ededed;
+  margin-right: var(--vertical-gutter);
+  margin-bottom: var(--horizontal-gutter);
+  padding: 0;
+  border-radius: 5px;
+  overflow: hidden;
+
+  transition: background-color 100ms ease-in;
+}
+
+.option:hover {
+  background-color: var(--pop-color);
+  color: white;
 }
 
 .option--avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  border: 5px solid var(--offset-background-color);
-  transition: opacity 0.2s, border 0.2s;
-  opacity: 0.8;
+  display: block;
+  width: 64px;
+  height: 64px;
+  position: relative;
+  padding: 0;
+  margin: 0;
 }
 
-.option--avatar:hover {
-  border: 5px solid var(--accent-color);
-  opacity: 1;
+.option--avatar:after {
+  display: block;
+  position: absolute;
+  content: " ";
+  width: 64px;
+  height: 64px;
+  top: 0;
+  left: 0;
+}
+
+.option:hover .option--avatar:after {
+  background-color: var(--pop-color);
+  opacity: 0.6;
 }
 
 .option--name {
-  text-align: center;
+  display: flex;
   font-weight: bold;
+  font-size: 1.4em;
   color: var(--main-text-color);
+  flex-grow: 1;
+  height: 64px;
+  align-items: center;
+}
+
+.option--name p {
+  padding-left: 10px;
+}
+
+.option--arrow {
+  display: flex;
+  width: 20px;
+  height: 64px;
+  align-items: center;
+  opacity: 0;
+  color: white;
+  transform: translateX(-10px);
+  transition: opacity 100ms linear, transform 200ms ease-in;
+}
+
+.option:hover .option--arrow {
+  opacity: 1;
+  transform: translateX(0px);
 }
 
 /* ChallengeView styling */
@@ -72,30 +126,14 @@ body {
 
 /* Quote card */
 .quote--box {
-  background-color: var(--offset-background-color);
-  border-radius: 5px;
   width: 800px;
 }
 
 .quote {
   word-wrap: break-word;
   color: var(--main-text-color);
-  display: block;
   margin: 50px 100px;
-  padding: 0px;
   font-size: 3em;
-  position: relative;
-}
-
-.quote:before {
-  content: "\201C";
-  color: #dfdfdf;
-  font-family: Arial;
-  content: "\201C";
-  font-size: 3em;
-  position: absolute;
-  left: -71px;
-  top: -20px;
 }
 
 .progress--indicator {
@@ -132,28 +170,107 @@ body {
   color: var(--main-text-color);
 }
 
-.score--box p {
+.score--box h1 {
   color: var(--main-text-color);
+  font-size: 3em;
   text-align: center;
+}
+
+.score--box ul {
+  list-style: none;
+  width: 400px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.score--box li {
+  position: relative;
+  margin: 10px;
+  padding: 10px 0px 10px 30px;
+  color: var(--main-text-color);
+}
+
+.score--box li:before {
+  position: absolute;
+  content: "";
+  left: 0px;
+  top: calc(50% - 7px);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.score--box li.green:before {
+  background-color: rgba(61, 153, 112, 0.8);
+}
+
+.score--box li.red:before {
+  background-color: rgba(255, 65, 54, 0.8);
 }
 
 .score--box button {
   border: none;
-  padding: 10px 30px;
+  padding: 15px 120px;
   font-size: 1em;
-  border-radius: 4px;
-  border: 1px solid #dddddd;
+  border-radius: 6px;
+  color: #999;
+  font-weight: bold;
   cursor: pointer;
-  transition: border-color, 0.2s;
+
+  box-shadow: 0 0 1px 0 #aaa;
+  transition: box-shadow 500ms;
+
   outline: none;
 }
 
 .score--box button:hover {
-  border: 1px solid var(--accent-color);
+  box-shadow: 0 0 10px #ccc;
 }
 
 .center {
   text-align: center;
+}
+
+.zigzag {
+  /* Set some variables for the ZigZag*/
+  --height: 16px;
+  --color: #ededed;
+  --thickness: 2px;
+  --background-color: white;
+
+  /* Define the ZigZag pattern itself*/
+  height: var(--height);
+  margin: 20px auto;
+  width: 400px;
+
+  background: linear-gradient(
+      135deg,
+      var(--background-color) calc(var(--height) / 2),
+      transparent 0
+    ),
+    linear-gradient(
+      -135deg,
+      var(--background-color) calc(var(--height) / 2),
+      transparent 0
+    ),
+    linear-gradient(
+      135deg,
+      transparent calc(var(--height) / 2),
+      var(--color) 0px,
+      var(--color) calc(var(--height) / 2 + var(--thickness)),
+      transparent 0px
+    ),
+    linear-gradient(
+      -135deg,
+      transparent calc(var(--height) / 2),
+      var(--color) 0px,
+      var(--color) calc(var(--height) / 2 + var(--thickness)),
+      transparent 0px
+    );
+
+  background-clip: border-box;
+  background-repeat: repeat-x;
+  background-size: var(--height) var(--height);
 }
 
 /* Loader View */
@@ -189,7 +306,7 @@ body {
   height: 50px;
   background-color: var(--offset-background-color);
   border: 5px solid transparent;
-  border-right: 5px solid var(--accent-color);
+  border-right: 5px solid var(--pop-color);
   border-radius: 50%;
   animation: spinning 0.6s linear infinite;
   box-shadow: 0px 0px 0px 3px var(--offset-background-color);

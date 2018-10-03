@@ -3,16 +3,25 @@ import PropTypes from "prop-types";
 import Image from "react-graceful-image";
 
 const Option = ({ avatar, name, onClick }) => (
-  <li className="option" onClick={onClick}>
-    <Image
-      src={avatar}
-      alt={`avatar of ${name}`}
-      width={192}
-      height={192}
-      className="option--avatar"
-    />
-    <p className="option--name">{name}</p>
-  </li>
+  <button className="option" onClick={onClick}>
+    <figure className="option--avatar">
+      <Image
+        src={avatar}
+        alt={`avatar of ${name}`}
+        width={64}
+        height={64}
+        placeholderColor="#DEDEDE"
+      />
+    </figure>
+
+    <div className="option--name">
+      <p>{name}</p>
+    </div>
+
+    <div className="option--arrow">
+      <span>&rarr;</span>
+    </div>
+  </button>
 );
 
 Option.propTypes = {
