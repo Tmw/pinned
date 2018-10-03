@@ -21,6 +21,7 @@ body {
 .App {
   height: 100%;
 }
+
 .highlight {
   color: var(--pop-color);
 }
@@ -33,8 +34,10 @@ body {
   flex-wrap: wrap;
 }
 
+/* Style the option button*/
+/* TODO: Rewrite the positioning to CSS grid */
 .option {
-  position: relative;
+  display: flex;
   --vertical-gutter: 5px;
   --horizontal-gutter: 5px;
 
@@ -49,6 +52,8 @@ body {
   padding: 0;
   border-radius: 5px;
   overflow: hidden;
+
+  transition: background-color 100ms ease-in;
 }
 
 .option:hover {
@@ -80,18 +85,34 @@ body {
   opacity: 0.6;
 }
 
-.option:hover:after {
-  position: absolute;
-  display: block;
-  content: "→";
-  right: 0px;
-  background: green;
+.option--name {
+  display: flex;
+  font-weight: bold;
+  font-size: 1.4em;
+  color: var(--main-text-color);
+  flex-grow: 1;
+  height: 64px;
+  align-items: center;
 }
 
-.option--name {
-  text-align: center;
-  font-weight: bold;
-  color: var(--main-text-color);
+.option--name p {
+  padding-left: 10px;
+}
+
+.option--arrow {
+  display: flex;
+  width: 20px;
+  height: 64px;
+  align-items: center;
+  opacity: 0;
+  color: white;
+  transform: translateX(-10px);
+  transition: opacity 100ms linear, transform 200ms ease-in;
+}
+
+.option:hover .option--arrow {
+  opacity: 1;
+  transform: translateX(0px);
 }
 
 /* ChallengeView styling */
@@ -113,8 +134,6 @@ body {
   color: var(--main-text-color);
   margin: 50px 100px;
   font-size: 3em;
-
-  padding: 20px;
 }
 
 .progress--indicator {

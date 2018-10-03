@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Image from "react-graceful-image";
 
 const Option = ({ avatar, name, onClick }) => (
-  <div className="option" onClick={onClick}>
+  <button className="option" onClick={onClick}>
     <figure className="option--avatar">
       <Image
         src={avatar}
@@ -13,8 +13,15 @@ const Option = ({ avatar, name, onClick }) => (
         placeholderColor="#DEDEDE"
       />
     </figure>
-    <p className="option--name">{name}</p>
-  </div>
+
+    <div className="option--name">
+      <p>{name}</p>
+    </div>
+
+    <div className="option--arrow">
+      <span>&rarr;</span>
+    </div>
+  </button>
 );
 
 Option.propTypes = {
