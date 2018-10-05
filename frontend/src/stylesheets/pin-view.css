@@ -6,10 +6,21 @@
 
 /* card containing the pinned message*/
 .quote {
-  width: 600px;
+  margin: 40px 0px;
+  max-width: 600px;
   word-wrap: break-word;
   color: var(--main-text-color);
   font-size: 3em;
+}
+
+@media only screen and (max-width: 600px) {
+  .quote {
+    font-size: 2em;
+  }
+
+  .options {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 /* Posted URLs or references to users get highlighted */
@@ -20,10 +31,17 @@
 /* The section containing various author options */
 .options {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   grid-gap: 6px;
-  width: 600px;
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 600px;
+  width: 100%;
   flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 600px) {
+  .options {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 /* Describes a single option in the list */
