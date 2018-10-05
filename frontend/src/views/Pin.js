@@ -25,7 +25,7 @@ class PinView extends React.Component {
       <React.Fragment>
         <PageTitle subtitle={`pin ${challengeIndex} / ${numChallenges}`} />
 
-        <div className="pin-view">
+        <div className="view pin-view">
           <ProgressIndicator step={challengeIndex} total={numChallenges} />
           <PinBox text={challenge.text} />
           <OptionBox

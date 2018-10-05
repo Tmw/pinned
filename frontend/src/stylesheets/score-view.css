@@ -1,12 +1,4 @@
 /* Score View */
-.score-view {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 .score--box {
   background-color: var(--offset-background-color);
   border-radius: 5px;

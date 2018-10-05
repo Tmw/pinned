@@ -48,8 +48,7 @@ body {
   color: white;
 }
 
-/* Loader View */
-.loader-view {
+.view {
   height: 100%;
   display: flex;
   justify-content: center;

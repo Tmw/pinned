@@ -28,7 +28,7 @@ class ScoreView extends React.Component {
       <React.Fragment>
         <PageTitle subtitle="Your report card!" />
 
-        <div className="score-view">
+        <div className="view score-view">
           <div className="score--box">
             <span className="raised-hands" role="img" aria-label="raised hands">
               🙌

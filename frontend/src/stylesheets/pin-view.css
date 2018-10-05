@@ -1,12 +1,3 @@
-/* ChallengeView styling */
-.pin-view {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 /* Progress indicator is the little number (1/5) at the top */
 .progress--indicator {
   color: var(--main-text-color);

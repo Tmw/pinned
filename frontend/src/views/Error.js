@@ -11,7 +11,7 @@ class ErrorView extends React.Component {
       <React.Fragment>
         <PageTitle subtitle="Uh-Oh!" />
 
-        <div className="error-view">
+        <div className="view error-view">
           <h1>Something went wrong! :(</h1>
           <span className="error--details">{error}</span>
         </div>
