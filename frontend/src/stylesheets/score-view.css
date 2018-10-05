@@ -2,7 +2,8 @@
 .score--box {
   background-color: var(--offset-background-color);
   border-radius: 5px;
-  width: 600px;
+  max-width: 600px;
+  width: 100%;
   padding: 20px;
 }
 
@@ -28,7 +29,8 @@
 
 .score--box ul {
   list-style: none;
-  width: 400px;
+  max-width: 400px;
+  width: 100%;
   margin: 0 auto;
   padding: 0;
 }
