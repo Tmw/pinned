@@ -3,9 +3,9 @@ import Option from "components/Option";
 
 class OptionBox extends React.Component {
   renderOptions() {
-    return this.props.options.map((choice, i) => (
+    return this.props.options.map(choice => (
       <Option
-        key={i}
+        key={choice.id}
         id={choice.id}
         onClick={() => this.props.onOptionClicked(choice.id)}
         avatar={choice.avatar}
