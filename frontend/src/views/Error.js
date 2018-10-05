@@ -1,6 +1,7 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
 import PageTitle from "components/PageTitle";
+import "stylesheets/error-view.css";
 
 class ErrorView extends React.Component {
   render() {

@@ -14,13 +14,8 @@ const Option = ({ avatar, name, onClick }) => (
       />
     </figure>
 
-    <div className="option--name">
-      <span>{name}</span>
-    </div>
-
-    <div className="option--arrow">
-      <span>&rarr;</span>
-    </div>
+    <div className="option--name">{name}</div>
+    <div className="option--arrow">&rarr;</div>
   </button>
 );
 

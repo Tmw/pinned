@@ -15,7 +15,7 @@ class OptionBox extends React.Component {
   }
 
   render() {
-    return <div className="option--list">{this.renderOptions()}</div>;
+    return <div className="options">{this.renderOptions()}</div>;
   }
 }
 

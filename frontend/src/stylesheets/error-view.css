@@ -1,0 +1,12 @@
+/* error view */
+.error-view {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.error--details {
+  color: var(--main-text-color);
+}

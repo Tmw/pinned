@@ -32,7 +32,7 @@ class Main extends Component {
   }
 
   render() {
-    return <div className="App">{this.renderChildView()}</div>;
+    return <div className="app">{this.renderChildView()}</div>;
   }
 }
 

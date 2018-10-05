@@ -5,6 +5,7 @@ import ProgressIndicator from "components/ProgressIndicator";
 import PinBox from "components/PinBox";
 import OptionBox from "containers/OptionBox";
 import PageTitle from "components/PageTitle";
+import "stylesheets/pin-view.css";
 
 class PinView extends React.Component {
   get challengeStore() {
@@ -24,7 +25,7 @@ class PinView extends React.Component {
       <React.Fragment>
         <PageTitle subtitle={`pin ${challengeIndex} / ${numChallenges}`} />
 
-        <div className="challenge-view">
+        <div className="pin-view">
           <ProgressIndicator step={challengeIndex} total={numChallenges} />
           <PinBox text={challenge.text} />
           <OptionBox

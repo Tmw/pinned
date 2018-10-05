@@ -3,9 +3,7 @@ import PropTypes from "prop-types";
 
 const ProgressIndicator = ({ step, total }) => (
   <div className="progress--indicator">
-    <span>
-      {step} / {total}
-    </span>
+    {step} / {total}
   </div>
 );
 

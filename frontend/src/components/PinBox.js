@@ -5,11 +5,9 @@ import WithSlackLinks from "components/WithSlackLinks";
 import EmojiToUnicode from "components/EmojiToUnicode";
 
 const PinBox = ({ text }) => (
-  <div className="quote--box">
-    <blockquote className="quote">
-      <WithSlackLinks highlighted>{EmojiToUnicode(text)}</WithSlackLinks>
-    </blockquote>
-  </div>
+  <blockquote className="quote">
+    <WithSlackLinks highlighted>{EmojiToUnicode(text)}</WithSlackLinks>
+  </blockquote>
 );
 
 PinBox.propTypes = {

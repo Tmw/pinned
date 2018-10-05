@@ -8,7 +8,7 @@
   --score-green-color: rgba(61, 153, 112, 0.8);
 }
 
-/* Some resetting styles*/
+/* Some resetting styles */
 html,
 body,
 #root {
@@ -21,20 +21,9 @@ body {
   font-family: sans-serif;
 }
 
-.App {
+/* Main wrapper of the application */
+.app {
   height: 100%;
-}
-
-.highlight {
-  color: var(--pop-color);
-}
-
-/* Author option card */
-.option--list {
-  display: flex;
-  padding: 0;
-  width: 600px;
-  flex-wrap: wrap;
 }
 
 /* Style general button style */
@@ -48,221 +37,15 @@ body {
   border-radius: 5px;
   overflow: hidden;
   transition: background-color 200ms ease-in;
+
+  font-weight: bold;
+  font-size: 12pt;
+  color: var(--main-text-color);
 }
 
 .button:hover {
   background-color: var(--pop-color);
   color: white;
-}
-
-/* Style the option button*/
-/* TODO: Rewrite the positioning to CSS grid */
-.option {
-  display: flex;
-  --vertical-gutter: 5px;
-  --horizontal-gutter: 5px;
-
-  width: calc(50% - var(--vertical-gutter));
-  display: flex;
-  margin-right: var(--vertical-gutter);
-  margin-bottom: var(--horizontal-gutter);
-}
-
-.option--avatar {
-  width: 64px;
-  height: 64px;
-  position: relative;
-  margin: 0;
-}
-
-.option--avatar:after {
-  background-color: var(--pop-color);
-  display: block;
-  position: absolute;
-  content: " ";
-  width: 64px;
-  height: 64px;
-  top: 0;
-  opacity: 0;
-
-  transition: opacity 200ms ease-in;
-}
-
-.option:hover .option--avatar:after {
-  opacity: 0.6;
-}
-
-.option--name {
-  display: flex;
-  font-weight: bold;
-  font-size: 1.4em;
-  color: var(--main-text-color);
-  flex-grow: 1;
-  height: 64px;
-  align-items: center;
-}
-
-.option--name {
-  padding-left: 10px;
-}
-
-.option--arrow {
-  display: flex;
-  width: 20px;
-  height: 64px;
-  align-items: center;
-  opacity: 0;
-  color: white;
-  transform: translateX(-10px);
-  transition: opacity 100ms linear, transform 200ms ease-in;
-}
-
-.option:hover .option--arrow {
-  opacity: 1;
-  transform: translateX(0px);
-}
-
-/* ChallengeView styling */
-.challenge-view {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Quote card */
-.quote--box {
-  width: 800px;
-}
-
-.quote {
-  word-wrap: break-word;
-  color: var(--main-text-color);
-  margin: 50px 100px;
-  font-size: 3em;
-}
-
-.progress--indicator {
-  background-color: var(--offset-background-color);
-  border-radius: 5px 5px 0px 0px;
-  padding: 15px 20px;
-}
-
-.progress--indicator span {
-  color: var(--main-text-color);
-  font-weight: bold;
-}
-
-/* Score View */
-.score-view {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.score--box {
-  background-color: var(--offset-background-color);
-  border-radius: 5px;
-  width: 800px;
-  padding: 20px;
-}
-
-.score--stars {
-  font-size: 6em;
-  text-align: center;
-  letter-spacing: 10pt;
-  color: var(--main-text-color);
-}
-
-.score--box h1 {
-  color: var(--main-text-color);
-  font-size: 3em;
-  text-align: center;
-}
-
-.score--box ul {
-  list-style: none;
-  width: 400px;
-  margin: 0 auto;
-  padding: 0;
-}
-
-.score--box li {
-  position: relative;
-  margin: 10px;
-  padding: 10px 0px 10px 30px;
-  color: var(--main-text-color);
-}
-
-.score--box li:before {
-  position: absolute;
-  content: "";
-  left: 0px;
-  top: 0px;
-  width: 14px;
-  height: 100%;
-}
-
-.score--box li.green:before {
-  background-color: var(--score-green-color);
-}
-
-.score--box li.red:before {
-  background-color: var(--score-red-color);
-}
-
-.score--box button {
-  padding: 25px 140px;
-  font-weight: bold;
-}
-
-.center {
-  text-align: center;
-}
-
-.zigzag {
-  /* Set some variables for the ZigZag*/
-  --height: 16px;
-  --color: #ededed;
-  --thickness: 2px;
-  --background-color: white;
-
-  /* Define the ZigZag pattern itself*/
-  height: var(--height);
-  margin: 20px auto;
-  width: 400px;
-
-  background: linear-gradient(
-      135deg,
-      var(--background-color) calc(var(--height) / 2),
-      transparent 0
-    ),
-    linear-gradient(
-      -135deg,
-      var(--background-color) calc(var(--height) / 2),
-      transparent 0
-    ),
-    linear-gradient(
-      135deg,
-      transparent calc(var(--height) / 2),
-      var(--color) 0px,
-      var(--color) calc(var(--height) / 2 + var(--thickness)),
-      transparent 0px
-    ),
-    linear-gradient(
-      -135deg,
-      transparent calc(var(--height) / 2),
-      var(--color) 0px,
-      var(--color) calc(var(--height) / 2 + var(--thickness)),
-      transparent 0px
-    );
-
-  background-clip: border-box;
-  background-repeat: repeat-x;
-  background-size: var(--height) var(--height);
 }
 
 /* Loader View */
@@ -272,18 +55,6 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-
-/* error view */
-.error-view {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-.error--details {
-  color: var(--main-text-color);
 }
 
 /* Spinner Component */

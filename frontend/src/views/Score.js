@@ -3,7 +3,7 @@ import React from "react";
 import { Views } from "Constants";
 import EmojiToUnicode from "components/EmojiToUnicode";
 import WithSlackLinks from "components/WithSlackLinks";
-
+import "stylesheets/score-view.css";
 import PageTitle from "components/PageTitle";
 
 class ScoreView extends React.Component {
@@ -30,11 +30,10 @@ class ScoreView extends React.Component {
 
         <div className="score-view">
           <div className="score--box">
-            <h1>
-              <span role="img" aria-label="raised hands">
-                🙌
-              </span>
-            </h1>
+            <span className="raised-hands" role="img" aria-label="raised hands">
+              🙌
+            </span>
+
             <h1>
               {score} out of {numChallenges}!
             </h1>

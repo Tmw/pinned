@@ -1,0 +1,117 @@
+/* Score View */
+.score-view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.score--box {
+  background-color: var(--offset-background-color);
+  border-radius: 5px;
+  width: 600px;
+  padding: 20px;
+}
+
+.raised-hands {
+  display: block;
+  text-align: center;
+  font-size: 6em;
+  margin: 0 auto;
+}
+
+.score--stars {
+  font-size: 6em;
+  text-align: center;
+  letter-spacing: 10pt;
+  color: var(--main-text-color);
+}
+
+.score--box h1 {
+  color: var(--main-text-color);
+  font-size: 3em;
+  text-align: center;
+}
+
+.score--box ul {
+  list-style: none;
+  width: 400px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.score--box li {
+  position: relative;
+  margin-bottom: 5px;
+  padding: 10px 0px 10px 30px;
+  color: var(--main-text-color);
+}
+
+.score--box li:before {
+  position: absolute;
+  content: "";
+  left: 0px;
+  top: 0px;
+  width: 12px;
+  height: 100%;
+}
+
+.score--box li.green:before {
+  background-color: var(--score-green-color);
+}
+
+.score--box li.red:before {
+  background-color: var(--score-red-color);
+}
+
+.score--box button {
+  padding: 25px 140px;
+  font-weight: bold;
+}
+
+.center {
+  text-align: center;
+}
+
+.zigzag {
+  /* Set some variables for the ZigZag*/
+  --height: 16px;
+  --color: #ededed;
+  --thickness: 2px;
+  --background-color: white;
+
+  /* Define the ZigZag pattern itself*/
+  height: var(--height);
+  margin: 20px auto;
+  width: 400px;
+
+  background: linear-gradient(
+      135deg,
+      var(--background-color) calc(var(--height) / 2),
+      transparent 0
+    ),
+    linear-gradient(
+      -135deg,
+      var(--background-color) calc(var(--height) / 2),
+      transparent 0
+    ),
+    linear-gradient(
+      135deg,
+      transparent calc(var(--height) / 2),
+      var(--color) 0px,
+      var(--color) calc(var(--height) / 2 + var(--thickness)),
+      transparent 0px
+    ),
+    linear-gradient(
+      -135deg,
+      transparent calc(var(--height) / 2),
+      var(--color) 0px,
+      var(--color) calc(var(--height) / 2 + var(--thickness)),
+      transparent 0px
+    );
+
+  background-clip: border-box;
+  background-repeat: repeat-x;
+  background-size: var(--height) var(--height);
+}
