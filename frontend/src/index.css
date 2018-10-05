@@ -47,7 +47,7 @@ body {
   background-color: #ededed;
   border-radius: 5px;
   overflow: hidden;
-  transition: background-color 100ms ease-in;
+  transition: background-color 200ms ease-in;
 }
 
 .button:hover {
@@ -76,16 +76,19 @@ body {
 }
 
 .option--avatar:after {
+  background-color: var(--pop-color);
   display: block;
   position: absolute;
   content: " ";
   width: 64px;
   height: 64px;
   top: 0;
+  opacity: 0;
+
+  transition: opacity 200ms ease-in;
 }
 
 .option:hover .option--avatar:after {
-  background-color: var(--pop-color);
   opacity: 0.6;
 }
 

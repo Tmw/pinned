@@ -49,9 +49,6 @@ class ScoreView extends React.Component {
                 </li>
               ))}
             </ul>
-            <br />
-            <br />
-            <br />
 
             <div className="zigzag" />
 
