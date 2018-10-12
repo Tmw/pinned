@@ -13,7 +13,7 @@
     "react-graceful-image": "^1.2.9",
     "react-helmet": "^5.2.0",
     "react-scripts": "1.1.4",
-    "react-transition-group": "^2.5.0"
+    "react-spring": "^5.9.2"
   },
   "scripts": {
     "start": "NODE_PATH=./src react-scripts start",

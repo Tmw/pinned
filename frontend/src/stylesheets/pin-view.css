@@ -2,6 +2,13 @@
 .progress--indicator {
   color: var(--main-text-color);
   font-weight: bold;
+  text-align: center;
+}
+
+.pin-wrapper {
+  position: absolute;
+  max-width: 600px;
+  width: 100%;
 }
 
 /* card containing the pinned message*/
