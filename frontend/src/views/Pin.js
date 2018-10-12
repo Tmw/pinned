@@ -1,6 +1,8 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
 
+import { Transition, animated } from "react-spring";
+
 import ProgressIndicator from "components/ProgressIndicator";
 import PinBox from "components/PinBox";
 import OptionBox from "containers/OptionBox";
@@ -24,14 +26,32 @@ class PinView extends React.Component {
     return (
       <React.Fragment>
         <PageTitle subtitle={`pin ${challengeIndex} / ${numChallenges}`} />
-
         <div className="view pin-view">
-          <ProgressIndicator step={challengeIndex} total={numChallenges} />
-          <PinBox text={challenge.text} />
-          <OptionBox
-            options={challenge.choices}
-            onOptionClicked={this.optionClickedHandler}
-          />
+          <Transition
+            native
+            keys={challenge.id}
+            from={{ opacity: 0, transform: "translateX(200px)" }}
+            enter={{ opacity: 1, transform: "translateX(0px)" }}
+            leave={{ opacity: 0, transform: "translateX(-200px)" }}
+          >
+            {style => (
+              <animated.div
+                className="pin-wrapper"
+                key={challenge.id}
+                style={style}
+              >
+                <ProgressIndicator
+                  step={challengeIndex}
+                  total={numChallenges}
+                />
+                <PinBox text={challenge.text} />
+                <OptionBox
+                  options={challenge.choices}
+                  onOptionClicked={this.optionClickedHandler}
+                />
+              </animated.div>
+            )}
+          </Transition>
         </div>
       </React.Fragment>
     );
