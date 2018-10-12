@@ -38,7 +38,7 @@ class PinView extends React.Component {
               <animated.div
                 className="pin-wrapper"
                 key={challenge.id}
-                style={{ ...style }}
+                style={style}
               >
                 <ProgressIndicator
                   step={challengeIndex}
