@@ -46,7 +46,7 @@ func init() {
 func main() {
 	// calling load will fetch all required objects
 	if err := p.Load(); err != nil {
-		log.Fatalf("Some error: %s", err);
+		log.Fatalf("Error while pre-fetching: %s", err);
 	}
 
 	// start HTTP server async
