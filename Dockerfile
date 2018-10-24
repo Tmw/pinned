@@ -3,7 +3,6 @@ RUN mkdir /app
 ADD ./backend /app/
 WORKDIR /app
 RUN CGO_ENABLED=0 go build -o pinned-backend .
-CMD ["/app/pinned"]
 
 FROM node:10.8.0 as builder-frontend
 RUN mkdir /app
