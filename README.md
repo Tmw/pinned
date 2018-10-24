@@ -14,11 +14,11 @@ docker build . -t pinned
 ## Running
 
 ```bash
-docker run \
+docker run --rm -d \
   -e "SLACK_TOKEN=XXX" \
   -e "SLACK_CHANNEL=general" \
   -p 4000:4000 \
-  -t pinned:latest
+  -t tiemenwaterreus/pinned:latest
 ```
 
 ## License
