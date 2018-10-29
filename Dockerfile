@@ -17,4 +17,5 @@ RUN mkdir /app
 COPY --from=builder-frontend /app/build/ ./app/static
 COPY --from=builder-backend /app/pinned-backend ./app/pinned-backend
 WORKDIR app
+EXPOSE 4000
 CMD ["./pinned-backend"]
