@@ -18,7 +18,7 @@ const getRandomLoadingPhrase = () => {
 export default class LoaderView extends React.Component {
   render() {
     return (
-      <div className="loader-view">
+      <div className="view loader-view">
         <Spinner text={getRandomLoadingPhrase()} />
       </div>
     );
