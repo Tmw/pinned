@@ -3,5 +3,6 @@ export const Views = {
   LOADING: "VIEWS:LOADING",
   PIN: "VIEWS:PIN",
   SCORE: "VIEWS:SCORE",
-  ERROR: "VIEWS:ERROR"
+  ERROR: "VIEWS:ERROR",
+  EMPTY: "VIEWS:EMPTY"
 };

@@ -30,7 +30,8 @@ const ChallengeStore = types
     fetchChallenges: flow(function*() {
       try {
         self.challenges = yield API.FetchChallenges();
-        getRoot(self).ViewStore.presentView(Views.PIN);
+        const view = self.challenges.length > 0 ? Views.PIN : Views.EMPTY;
+        getRoot(self).ViewStore.presentView(view);
       } catch (err) {
         getRoot(self).ViewStore.presentView(Views.ERROR, err.message);
       }
