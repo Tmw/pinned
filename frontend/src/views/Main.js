@@ -6,6 +6,7 @@ import LoaderView from "views/Loader";
 import ErrorView from "views/Error";
 import PinView from "views/Pin";
 import ScoreView from "views/Score";
+import EmptyView from "views/Empty";
 
 class Main extends Component {
   componentDidMount() {
@@ -28,6 +29,9 @@ class Main extends Component {
 
       case Views.SCORE:
         return <ScoreView />;
+
+      case Views.EMPTY:
+        return <EmptyView />;
     }
   }
 
