@@ -36,6 +36,8 @@ func init() {
 	}
 
 	p = pinned.New(
+		// TODO: Somehow bake in a switch to serve statics instead
+		// fetcher.NewStaticFetcher(),
 		fetcher.New(cfg.SlackToken, cfg.SlackChannel),
 		cfg.NumChallenges,
 		cfg.NumChoices,
