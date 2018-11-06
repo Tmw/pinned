@@ -10,6 +10,7 @@ const Option = ({ avatar, name, onClick }) => (
         alt={`avatar of ${name}`}
         width={64}
         height={64}
+        style={{ objectFit: "cover", objectPosition: "Top" }}
         placeholderColor="#DEDEDE"
       />
     </figure>
