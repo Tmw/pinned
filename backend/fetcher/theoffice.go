@@ -208,56 +208,56 @@ var (
 			ID:     "a080e9be-3fd5-4d74-852d-bf048c00fff2",
 			Name:   "Dwight Schrute",
 			IsBot:  false,
-			Avatar: "http://placekitten.com/128/128",
+			Avatar: "https://upload.wikimedia.org/wikipedia/en/c/cd/Dwight_Schrute.jpg",
 		},
 
 		&model.User{
 			ID:     "e3cb89b7-2f06-4247-84ae-43265cd85f9d",
 			Name:   "Jim Halpert",
 			IsBot:  false,
-			Avatar: "http://placekitten.com/128/128",
+			Avatar: "https://upload.wikimedia.org/wikipedia/en/7/7e/Jim-halpert.jpg",
 		},
 
 		&model.User{
 			ID:     "d2052497-d23c-459c-a290-c66ff931bbb6",
 			Name:   "Michael Scott",
 			IsBot:  false,
-			Avatar: "http://placekitten.com/128/128",
+			Avatar: "https://upload.wikimedia.org/wikipedia/en/d/dc/MichaelScott.png",
 		},
 
 		&model.User{
 			ID:     "93c2daaa-084e-4228-8322-1abdb1d891cd",
 			Name:   "Oscar Martinez",
 			IsBot:  false,
-			Avatar: "http://placekitten.com/128/128",
+			Avatar: "https://upload.wikimedia.org/wikipedia/en/5/54/Oscar_Martinez_of_The_Office.jpg",
 		},
 
 		&model.User{
 			ID:     "1c8fd81f-757b-4ebf-af78-40ffc0268146",
 			Name:   "Phyllis Vance",
 			IsBot:  false,
-			Avatar: "http://placekitten.com/128/128",
+			Avatar: "https://upload.wikimedia.org/wikipedia/en/f/ff/Phyllis_Lapin-Vance.jpg",
 		},
 
 		&model.User{
 			ID:     "7c1cdb63-a73a-4385-b23e-3362d7f613aa",
 			Name:   "Andy Bernard",
 			IsBot:  false,
-			Avatar: "http://placekitten.com/128/128",
+			Avatar: "https://upload.wikimedia.org/wikipedia/en/8/84/Andy_Bernard_photoshot.jpg",
 		},
 
 		&model.User{
 			ID:     "32a73786-28e8-4756-a2e2-ec6e3b9b8342",
 			Name:   "Angela Martin",
 			IsBot:  false,
-			Avatar: "http://placekitten.com/128/128",
+			Avatar: "https://upload.wikimedia.org/wikipedia/en/0/0b/Angela_Martin.jpg",
 		},
 
 		&model.User{
 			ID:     "99ec8981-c512-4047-b645-1e571aab8ce3",
 			Name:   "Ryan Howard",
 			IsBot:  false,
-			Avatar: "http://placekitten.com/128/128",
+			Avatar: "https://upload.wikimedia.org/wikipedia/en/9/91/Ryan_Howard_%28The_Office%29.jpg",
 		},
 	}
 )
