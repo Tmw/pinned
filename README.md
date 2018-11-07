@@ -99,6 +99,15 @@ If you're lazy enough and installed Foreman, just run:
 foreman start
 ```
 
+## Deployment on Zeit.co's Now
+
+```bash
+now login
+now secret add slack_secret <YOUR_SLACK_TOKEN_HERE>
+git pull github.com/tmw/pinned & cd pinned
+now -e SLACK_TOKEN=@slack_token
+```
+
 ## License
 
 [MIT](./LICENSE)
