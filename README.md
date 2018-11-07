@@ -1,5 +1,7 @@
 # Pinned 📌
 
+<img src="./pinned.gif">
+
 Pinned grabs the pinned messages from Slack and turns them into a multiple choice quiz where your objective is to guess the original author of the pin! 😼
 
 ## Run Docker image
@@ -58,6 +60,7 @@ Other `ENV` variables include:
 - Git
 - Golang 1.11.x
 - Node (10.x.x)
+- [Foreman](https://rubygems.org/gems/foreman/versions/0.82.0) (Or other Procfile runner)
 
 ### Getting started
 
@@ -87,6 +90,14 @@ go run main.go
 ```
 
 Ever since Go 1.11 a Go project doesn't neccecerily have to live within the `$GOPATH` anymore. A simple `go get` and `go run` should do the trick here.
+
+### Start using Foreman
+
+If you're lazy enough and installed Foreman, just run:
+
+```bash
+foreman start
+```
 
 ## License
 
