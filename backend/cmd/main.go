@@ -5,8 +5,8 @@ import (
 	"os"
 	"os/signal"
 
+	pinned "github.com/tmw/pinned/backend"
 	"github.com/tmw/pinned/backend/fetcher"
-	"github.com/tmw/pinned/backend/pinned"
 	"github.com/tmw/pinned/backend/server"
 
 	"github.com/caarlos0/env"

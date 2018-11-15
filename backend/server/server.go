@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/tmw/pinned/backend/pinned"
+	pinned "github.com/tmw/pinned/backend"
 )
 
 // Server sets up a basic HTTP server

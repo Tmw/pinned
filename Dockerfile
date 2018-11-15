@@ -2,7 +2,7 @@ FROM golang:1.11.1 as builder-backend
 RUN mkdir /app
 ADD ./backend /app/
 WORKDIR /app
-RUN CGO_ENABLED=0 go build -o pinned-backend .
+RUN CGO_ENABLED=0 go build -o pinned-backend cmd/main.go
 
 FROM node:10.8.0 as builder-frontend
 RUN mkdir /app
