@@ -109,6 +109,9 @@ foreman start
 now https://github.com/tmw/pinned -e SLACK_TOKEN=<your_legacy_slack_token>
 ```
 
+## Demo
+https://tmw-pinned-ymldkcewfw.now.sh/
+
 ## License
 
 [MIT](./LICENSE)
