@@ -41,9 +41,9 @@ docker run --rm -d \
 
 Read how to obtain a _legacy_ Slack token over [here](https://api.slack.com/custom-integrations/legacy-tokens).
 
-### Env Variables
+### Environment Variables
 
-Other `ENV` variables include:
+Other environment variables include:
 
 | Variable       | Description                                           |
 | -------------- | ----------------------------------------------------- |
@@ -52,6 +52,10 @@ Other `ENV` variables include:
 | NUM_CHALLENGES | How many pins to guess? Default: 5                    |
 | NUM_CHOICES    | How many possible authors? Default: 4                 |
 | SERVER_PORT    | What port is the Server listening on? Default: 4000   |
+
+### Running the Demo version
+
+If you pass `the_office` as `SLACK_TOKEN`, Pinned will actually run demo mode and present quotes from The Office (US) instead of fetching pins from slack. 🤷‍
 
 ## Run from Source
 

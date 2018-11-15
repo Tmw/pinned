@@ -13,6 +13,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
+const demoSlackToken = "the_office"
+
 type config struct {
 	NumChallenges int    `env:"NUM_CHALLENGES" envDefault:"5"`
 	NumChoices    int    `env:"NUM_CHOICES" envDefault:"4"`
@@ -36,19 +38,25 @@ func init() {
 	}
 
 	p = pinned.New(
-		// TODO: Somehow bake in a switch to serve statics instead
-		// fetcher.NewStaticFetcher(),
-		fetcher.New(cfg.SlackToken, cfg.SlackChannel),
+		getFetcher(),
 		cfg.NumChallenges,
 		cfg.NumChoices,
 	)
 	srv = server.New(p)
 }
 
+func getFetcher() fetcher.Fetcher {
+	if cfg.SlackToken == demoSlackToken {
+		return fetcher.NewOfficeFetcher()
+	}
+
+	return fetcher.New(cfg.SlackToken, cfg.SlackChannel)
+}
+
 func main() {
 	// calling load will fetch all required objects
 	if err := p.Load(); err != nil {
-		log.Fatalf("Error while pre-fetching: %s", err);
+		log.Fatalf("Error while pre-fetching: %s", err)
 	}
 
 	// start HTTP server async
